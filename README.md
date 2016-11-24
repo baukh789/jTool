@@ -5,3 +5,5 @@
 这么多年来一直使用的都是jQuery或直接上手原生js, jTool的方法名和使用方法基本上参考jQuery.
 jTool用一样的name,code不一样的逻辑,实现相同的功能.这就是jTool.js的编码理念.
 
+#其它
+待编辑

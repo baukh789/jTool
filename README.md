@@ -5,5 +5,14 @@
 这么多年来一直使用的都是jQuery或直接上手原生js, jTool的方法名和使用方法基本上参考jQuery.
 jTool用一样的name,code不一样的逻辑,实现相同的功能.这就是jTool.js的编码理念.
 
+
+###安装命令
+```
+npm install GridManager
+```
+###引入方式
+```
+<script type="text/javascript" src="/node_modules/jTool/src/js/jTool.js"></script>
+```
 #其它
 待编辑

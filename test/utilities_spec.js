@@ -4,6 +4,21 @@ var utilities = require('../src/utilities');
 
 describe('utilities', function() {
 
+	var nodeList = null;
+	var divEle = null;
+
+	beforeEach(function() {
+		divEle = document.createElement('div');
+		document.body.appendChild(divEle);
+		nodeList = document.querySelectorAll('div');
+	});
+
+	afterEach(function() {
+		document.body.removeChild(divEle);
+		nodeList = null;
+		divEle = null;
+	});
+
 	it('isArray', function() {
 		expect(utilities.isArray([])).toBe(true);
 		expect(utilities.isArray({})).toBe(false);
@@ -26,6 +41,68 @@ describe('utilities', function() {
 		expect(utilities.type(new Date())).toBe('date');
 		expect(utilities.type(Error())).toBe('error');
 		expect(utilities.type(/test/)).toBe('regexp');
+		expect(utilities.type(document.body)).toBe('element');
+		expect(utilities.type(nodeList)).toBe('nodeList');
+		expect(utilities.type(divEle)).toBe('element');
+	});
+
+	describe('each', function() {
+
+		it('遍历数组', function() {
+			var arr = [1,2,3];
+			var callback = jasmine.createSpy('callback');
+			utilities.each(arr, callback);
+			expect(callback.calls.count()).toBe(3);
+			expect(callback.calls.argsFor(0)).toEqual([0, 1]);
+
+			var sum = 0;
+			utilities.each(arr, function(i, v) {
+				sum += v;
+			});
+			expect(sum).toBe(6);
+		});
+
+		it('遍历类数组 arguments', function() {
+			function test() {
+				var callback = jasmine.createSpy('callback');
+				utilities.each(arguments, callback);
+				expect(callback.calls.count()).toBe(4);
+			}
+
+			test(1,2,3,4);
+		});
+
+		it('遍历类数组 nodeList', function() {
+			var callback = jasmine.createSpy('callback');
+			utilities.each(nodeList, callback);
+			expect(callback.calls.count()).toBe(1);
+		});
+
+		it('遍历对象', function() {
+			var obj = {
+				'a': 1,
+				'b': 2,
+				'c': 3
+			};
+			var callback = jasmine.createSpy('callback');
+			utilities.each(obj, callback);
+			expect(callback.calls.count()).toBe(3);
+			expect(callback.calls.argsFor(0)).toEqual(['a', 1]);
+		});
+
+		it('遍历 JTool 对象', function() {
+			var obj = {
+				'a': 1,
+				'b': 2,
+				'c': 3
+			};
+
+			obj.jTool = 'jTool';
+			obj.DOMList = nodeList;
+			var callback = jasmine.createSpy('callback');
+			utilities.each(obj, callback);
+			expect(callback.calls.count()).toBe(1);
+		});
 	});
 
 });

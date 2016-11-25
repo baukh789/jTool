@@ -48,9 +48,18 @@ describe('utilities', function() {
 
 	describe('each', function() {
 
+		var callback = null;
+
+		beforeEach(function() {
+			callback = jasmine.createSpy('callback');
+		});
+
+		afterEach(function() {
+			callback = null;
+		});
+
 		it('遍历数组', function() {
 			var arr = [1,2,3];
-			var callback = jasmine.createSpy('callback');
 			utilities.each(arr, callback);
 			expect(callback.calls.count()).toBe(3);
 			expect(callback.calls.argsFor(0)).toEqual([0, 1]);
@@ -64,7 +73,6 @@ describe('utilities', function() {
 
 		it('遍历类数组 arguments', function() {
 			function test() {
-				var callback = jasmine.createSpy('callback');
 				utilities.each(arguments, callback);
 				expect(callback.calls.count()).toBe(4);
 			}
@@ -73,7 +81,6 @@ describe('utilities', function() {
 		});
 
 		it('遍历类数组 nodeList', function() {
-			var callback = jasmine.createSpy('callback');
 			utilities.each(nodeList, callback);
 			expect(callback.calls.count()).toBe(1);
 		});
@@ -84,7 +91,6 @@ describe('utilities', function() {
 				'b': 2,
 				'c': 3
 			};
-			var callback = jasmine.createSpy('callback');
 			utilities.each(obj, callback);
 			expect(callback.calls.count()).toBe(3);
 			expect(callback.calls.argsFor(0)).toEqual(['a', 1]);
@@ -99,10 +105,57 @@ describe('utilities', function() {
 
 			obj.jTool = 'jTool';
 			obj.DOMList = nodeList;
-			var callback = jasmine.createSpy('callback');
 			utilities.each(obj, callback);
 			expect(callback.calls.count()).toBe(1);
 		});
+	});
+
+	it('trim', function() {
+		expect(utilities.trim(' 123')).toBe('123');
+		expect(utilities.trim('123 ')).toBe('123');
+		expect(utilities.trim(' 12 3')).toBe('12 3');
+		expect(utilities.trim(' 123  ')).toBe('123');
+	});
+
+	it('error', function() {
+		expect(utilities.error).toThrowError(/jTool Error/);
+	});
+
+	it('isEmptyObject', function() {
+		expect(utilities.isEmptyObject({})).toBe(true);
+		expect(utilities.isEmptyObject(Object.create(null))).toBe(true);
+		expect(utilities.isEmptyObject({ a: 1 })).toBe(false);
+		expect(utilities.isEmptyObject(Object.create({ a: 1 }))).toBe(true);
+		expect(utilities.isEmptyObject(Object.prototype)).toBe(true);
+	});
+
+	it('getStyle', function() {
+		expect(utilities.getStyle(divEle)).toEqual(jasmine.any(Object));
+		divEle.style.fontSize = '12px';
+		expect(utilities.getStyle(divEle, 'font-size')).toBe('12px');
+	});
+
+	it('getStyleUnit', function() {
+		expect(utilities.getStyleUnit('12px')).toBe('px');
+		expect(utilities.getStyleUnit('12em')).toBe('em');
+		expect(utilities.getStyleUnit('12%')).toBe('%');
+		expect(utilities.getStyleUnit('12vem')).toBe('vem');
+	});
+
+	it('toHump', function() {
+		expect(utilities.toHump('font-size')).toBe('fontSize');
+		expect(utilities.toHump('-font-size')).toBe('FontSize');
+		expect(utilities.toHump('-font-size-')).toBe('FontSize-');
+		expect(utilities.toHump('color')).toBe('color');
+		expect(utilities.toHump('xxx-111-xx')).toBe('xxx111Xx');
+		expect(utilities.toHump('background-color')).toBe('backgroundColor');
+	});
+
+	it('toHyphen', function() {
+		expect(utilities.toHyphen('FontSize')).toBe('-font-size');
+		expect(utilities.toHyphen('fontSize')).toBe('font-size');
+		expect(utilities.toHyphen('FontSize-')).toBe('-font-size-');
+		expect(utilities.toHyphen('XXX')).toBe('-x-x-x');
 	});
 
 });

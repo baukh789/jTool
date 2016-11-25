@@ -76,8 +76,10 @@ function isEmptyObject(obj) {
 
 	var isEmptyObj = true;
 
-	for (var i in obj) {
-		isEmptyObj = false;
+	for (var pro in obj) {
+		if(obj.hasOwnProperty(pro)) {
+			isEmptyObj = false;
+		}
 	}
 
 	return isEmptyObj;
@@ -85,12 +87,12 @@ function isEmptyObject(obj) {
 
 // 获取节点样式: key为空时则返回全部
 function getStyle(dom, key){
-	return window.getComputedStyle(dom)[key];
+	return key ? window.getComputedStyle(dom)[key] : window.getComputedStyle(dom);
 }
 
 // 获取样式的单位
 function getStyleUnit(style) {
-	var unitList = ['px', 'em', 'vem', '%'],
+	var unitList = ['px', 'vem', 'em', '%'],
 		unit = '';
 
 	// 样式本身为纯数字,则直接返回单位为空

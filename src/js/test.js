@@ -60,7 +60,7 @@ require(['require.config'], function(){
             });
         }
         // 测试on
-        // testOn();
+        testOn();
         function testOn(){
             $('div').off('click', 'p');
             $('div').on('click', 'p', function(e){

@@ -43,7 +43,7 @@ function each(object, callback) {
 
 	var objType = type(object);
 
-	// 为数组或类数组时, 返回: index, value
+	// 为类数组时, 返回: index, value
 	if (objType === 'array' || objType === 'nodeList' || objType === 'arguments') {
 		// 由于存在类数组 NodeList, 所以不能直接调用 every 方法
 		[].every.call(object, function(v, i){

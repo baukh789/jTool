@@ -1,5 +1,3 @@
-'use strict';
-
 var toString = Object.prototype.toString;
 
 var class2type = {

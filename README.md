@@ -8,7 +8,7 @@ jTool用一样的name,code不一样的逻辑,实现相同的功能.这就是jToo
 
 ###安装命令
 ```
-npm install GridManager
+npm install jTool
 ```
 ###引入方式
 ```

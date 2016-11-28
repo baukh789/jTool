@@ -7,7 +7,7 @@ var utilities = require('./utilities');
 
 var Sizzle = function(selector, context) {
 
-	var DOMList = undefined;
+	var DOMList;
 
 	// selector -> undefined || null
 	if (!selector) {
@@ -45,10 +45,11 @@ var Sizzle = function(selector, context) {
 	}
 
 	// selector -> Html String
-	// else if (/<.+>/.test(selector)) {
-	// 	DOMList = jTool.prototype.createDOM(selector);
-	// 	context = undefined;
-	// }
+	else if (/<.+>/.test(selector)) {
+		// TODO
+		// DOMList = jTool.prototype.createDOM(selector);
+		context = undefined;
+	}
 
 	// selector -> 字符CSS选择器
 	else {
@@ -68,12 +69,12 @@ var Sizzle = function(selector, context) {
 		}
 
 		// context -> NodeList
-		else if(context instanceof NodeList){
+		else if (context instanceof NodeList) {
 			context = context;
 		}
 
 		// context -> jTool Object
-		else if(context.jTool){
+		else if (context.jTool) {
 			context = context.DOMList;
 		}
 
@@ -94,7 +95,7 @@ var Sizzle = function(selector, context) {
 		}
 	}
 
-	if(!DOMList || DOMList.length === 0){
+	if (!DOMList || DOMList.length === 0) {
 		DOMList = undefined;
 	}
 

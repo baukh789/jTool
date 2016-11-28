@@ -158,4 +158,11 @@ describe('utilities', function() {
 		expect(utilities.toHyphen('XXX')).toBe('-x-x-x');
 	});
 
+	it('isWindow', function() {
+		expect(utilities.isWindow(window)).toBe(true);
+	});
+
+	// it('isChrome', function() {
+	// 	expect(utilities.isChrome()).toBe(false);
+	// });
 });

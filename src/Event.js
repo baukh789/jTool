@@ -1,6 +1,6 @@
 var utilities = require('./utilities');
 
-var Event = {
+var _Event = {
 
 	on: function(event, querySelector, callback, useCapture) {
 		// 将事件触发执行的函数存储于DOM上, 在清除事件时使用
@@ -22,9 +22,10 @@ var Event = {
 	trigger: function(event) {
 		utilities.each(this.DOMList, function(e, element){
 			try {
+				// TODO 潜在风险 window 不支持这样调用事件
 				element[event]();
-			} catch(e) {
-				utilities.error(e);
+			} catch(err) {
+				utilities.error(err);
 			}
 		});
 
@@ -89,13 +90,9 @@ var Event = {
 		var _this = this;
 		utilities.each(eventList, function (index, eventObj) {
 			utilities.each(_this.DOMList, function(i, v){
-				if(!v['jToolEvent']) {
-					v['jToolEvent'] = {};
-				}
-				if(!v['jToolEvent'][eventObj.eventName]) {
-					v['jToolEvent'][eventObj.eventName] = [];
-				}
-				v['jToolEvent'][eventObj.eventName].push(eventObj);
+				v.jToolEvent = v.jToolEvent || {};
+				v.jToolEvent[eventObj.eventName] = v.jToolEvent[eventObj.eventName] || [];
+				v.jToolEvent[eventObj.eventName].push(eventObj);
 				v.addEventListener(eventObj.type, eventObj.callback, eventObj.useCapture);
 			});
 		});
@@ -106,17 +103,17 @@ var Event = {
 	removeEvent: function(eventList) {
 		var _this = this;
 		var eventFnList; //事件执行函数队列
-		utilities.each(eventList, function (index, eventObj) {
+		utilities.each(eventList, function(index, eventObj) {
 			utilities.each(_this.DOMList, function(i, v){
-				if (!v['jToolEvent']) {
+				if (!v.jToolEvent) {
 					return;
 				}
-				eventFnList = v['jToolEvent'][eventObj.eventName];
+				eventFnList = v.jToolEvent[eventObj.eventName];
 				if (eventFnList) {
 					utilities.each(eventFnList, function(i2, v2) {
 						v.removeEventListener(v2.type, v2.callback);
 					});
-					v['jToolEvent'][eventObj.eventName] = undefined;
+					v.jToolEvent[eventObj.eventName] = undefined;
 				}
 			});
 		});
@@ -124,4 +121,4 @@ var Event = {
 	}
 };
 
-module.exports = Event;
+module.exports = _Event;

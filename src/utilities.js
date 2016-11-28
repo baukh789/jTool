@@ -121,6 +121,8 @@ function toHyphen(text) {
 }
 
 module.exports = {
+	isWindow: isWindow,
+	isChrome: isChrome,
 	isArray: isArray,
 	noop: noop,
 	type: type,

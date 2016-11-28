@@ -21,6 +21,8 @@
     "uglifyjs": "^2.4.10",
     "watchify": "^3.7.0"
   },
+  "repository": "",
+  "license": "",
   "scripts": {
     "lint": "jshint src test",
     "test": "karma start",

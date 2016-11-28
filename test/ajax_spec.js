@@ -172,6 +172,14 @@ describe('ajax', function() {
 
 		expect(success).toHaveBeenCalledWith({'test': 1}, 200);
 	});
+
+	it('测试 url 不能为 null', function() {
+		try {
+			ajax.ajax();
+		} catch(e) {
+			expect(e.message).toMatch(/url不能为空/);
+		}
+	});
 });
 
 describe('post', function() {

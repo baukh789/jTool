@@ -23,7 +23,7 @@ var _Event = {
 		utilities.each(this.DOMList, function(e, element){
 			try {
 				// TODO 潜在风险 window 不支持这样调用事件
-				element['jToolEvent'][event]();
+				element.jToolEvent[event]();
 			} catch(err) {
 				utilities.error(err);
 			}

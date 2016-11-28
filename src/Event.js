@@ -23,7 +23,7 @@ var _Event = {
 		utilities.each(this.DOMList, function(e, element){
 			try {
 				// TODO 潜在风险 window 不支持这样调用事件
-				element[event]();
+				element['jToolEvent'][event]();
 			} catch(err) {
 				utilities.error(err);
 			}
@@ -77,6 +77,7 @@ var _Event = {
 				querySelector: querySelector,
 				callback: callback || utilities.noop,
 				useCapture: useCapture || false,
+				// TODO: nameScope暂时不用
 				nameScope: eventScopeSplit[1] || undefined
 			};
 			eventList.push(eventObj);
@@ -93,7 +94,6 @@ var _Event = {
 				v.jToolEvent = v.jToolEvent || {};
 				v.jToolEvent[eventObj.eventName] = v.jToolEvent[eventObj.eventName] || [];
 				v.jToolEvent[eventObj.eventName].push(eventObj);
-				v.addEventListener(eventObj.type, eventObj.callback, eventObj.useCapture);
 			});
 		});
 		return _this;

@@ -21,10 +21,12 @@
     "uglifyjs": "^2.4.10",
     "watchify": "^3.7.0"
   },
+  "repository": "",
+  "license": "",
   "scripts": {
     "lint": "jshint src test",
     "test": "karma start",
-    "build": "browserify src/index.js > jTool.js",
-    "build:minified": "browserify src/index.js | uglifyjs -mc > JTool.min.js"
+    "build": "browserify src/index.js > build/jTool.js",
+    "build:minified": "browserify src/index.js | uglifyjs -mc > build/JTool.min.js"
   }
 }

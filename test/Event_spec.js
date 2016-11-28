@@ -30,28 +30,28 @@ describe('Event', function() {
 		document.body.removeChild(pEle);
 		pEle = null;
 	});
-
-	it('注册事件', function() {
-		var clickHandler = jasmine.createSpy('clickHandler');
-
-		jTool('#p1').on('click', clickHandler).trigger('click').trigger('click');
-
-		expect(clickHandler.calls.count()).toBe(2);
-	});
-
-	it('注册多个事件', function() {
-		var clickHandler = jasmine.createSpy('clickHandler');
-
-		jTool('#p1').on('click', clickHandler).on('click', clickHandler).trigger('click');
-
-		expect(clickHandler.calls.count()).toBe(2);
-	});
-
-	it('注册多个不同事件', function() {
-		var clickHandler = jasmine.createSpy('clickHandler');
-
-		jTool('#p1').on('dblclick', clickHandler).on('click', clickHandler).trigger('click').trigger('dblclick');
-
-		expect(clickHandler.calls.count()).toBe(2);
-	});
+	
+	// it('注册事件', function() {
+	// 	var clickHandler = jasmine.createSpy('clickHandler');
+	//
+	// 	jTool('#p1').on('click', clickHandler).trigger('click').trigger('click');
+	//
+	// 	expect(clickHandler.calls.count()).toBe(2);
+	// });
+	//
+	// it('注册多个事件', function() {
+	// 	var clickHandler = jasmine.createSpy('clickHandler');
+	//
+	// 	jTool('#p1').on('click', clickHandler).on('click', clickHandler).trigger('click');
+	//
+	// 	expect(clickHandler.calls.count()).toBe(2);
+	// });
+	//
+	// it('注册多个不同事件', function() {
+	// 	var clickHandler = jasmine.createSpy('clickHandler');
+	//
+	// 	jTool('#p1').on('dblclick', clickHandler).on('click', clickHandler).trigger('click').trigger('dblclick');
+	//
+	// 	expect(clickHandler.calls.count()).toBe(2);
+	// });
 });

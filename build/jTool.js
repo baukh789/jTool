@@ -5,6 +5,7 @@ var _Event = {
 
 	on: function(event, querySelector, callback, useCapture) {
 		// 将事件触发执行的函数存储于DOM上, 在清除事件时使用
+		console.log('on');
 		return this.addEvent(this.getEventObject(event, querySelector, callback, useCapture));
 	},
 
@@ -24,7 +25,7 @@ var _Event = {
 		utilities.each(this.DOMList, function(e, element){
 			try {
 				// TODO 潜在风险 window 不支持这样调用事件
-				element['jToolEvent'][event]();
+				element.jToolEvent[event]();
 			} catch(err) {
 				utilities.error(err);
 			}
@@ -90,11 +91,13 @@ var _Event = {
 	// 增加事件,并将事件对象存储至DOM节点
 	addEvent: function(eventList) {
 		var _this = this;
+		console.log(eventList)
 		utilities.each(eventList, function (index, eventObj) {
 			utilities.each(_this.DOMList, function(i, v){
 				v.jToolEvent = v.jToolEvent || {};
 				v.jToolEvent[eventObj.eventName] = v.jToolEvent[eventObj.eventName] || [];
 				v.jToolEvent[eventObj.eventName].push(eventObj);
+				v.addEventListener(eventObj.type, eventObj.callback, eventObj.useCapture);
 			});
 		});
 		return _this;
@@ -174,7 +177,7 @@ var Sizzle = function(selector, context) {
 	// selector -> Html String
 	else if (/<.+>/.test(selector)) {
 		// TODO
-		// DOMList = jTool.prototype.createDOM(selector);
+		DOMList = utilities.createDOM(selector);
 		context = undefined;
 	}
 
@@ -366,8 +369,6 @@ function extend() {
 module.exports = extend;
 
 },{}],5:[function(require,module,exports){
-
-
 var Sizzle = require('./Sizzle');
 var Extend = require('./extend');
 var Utilities = require('./utilities');
@@ -375,7 +376,7 @@ var Ajax = require('./ajax');
 var Event = require('./Event');
 
 // 如果需要集成Angular,React,在此处进行集成
-var $ = jTool = function (selector, context){
+var jTool = function (selector, context){
     return new Sizzle(selector, context);
 };
 
@@ -388,7 +389,6 @@ jTool.extend(Ajax);
 
 //捆绑jTool 方法
 jTool.prototype.extend(Event);
-
 module.exports = jTool;
 
 },{"./Event":1,"./Sizzle":2,"./ajax":3,"./extend":4,"./utilities":6}],6:[function(require,module,exports){
@@ -514,6 +514,44 @@ function toHyphen(text) {
 	return text.replace(/([A-Z])/g,"-$1").toLowerCase();
 }
 
+// 通过html字符串, 生成DOM.  返回生成后的子节点
+// 该方法无处处理包含table标签的字符串,但是可以处理table下属的标签
+function createDOM(htmlString) {
+	var jToolDOM = document.querySelector('#jTool-create-dom');
+	if (!jToolDOM || jToolDOM.length === 0) {
+		// table标签 可以在新建element时可以更好的容错.
+		// div标签, 添加thead,tbody等表格标签时,只会对中间的文本进行创建
+		// table标签,在添加任务标签时,都会成功生成.且会对table类标签进行自动补全
+		var el = document.createElement('table');
+		el.id = 'jTool-create-dom';
+		el.style.display = 'none';
+		document.body.appendChild(el);
+		jToolDOM = document.querySelector('#jTool-create-dom');
+	}
+
+	jToolDOM.innerHTML = htmlString || '';
+	var childNodes = jToolDOM.childNodes;
+
+	// 进行table类标签清理, 原因是在增加如th,td等table类标签时,浏览器会自动补全节点.
+	if (childNodes.length == 1 && !/<tbody|<TBODY/.test(htmlString) && childNodes[0].nodeName === 'TBODY') {
+		childNodes = childNodes[0].childNodes;
+	}
+	if (childNodes.length == 1 && !/<thead|<THEAD/.test(htmlString) && childNodes[0].nodeName === 'THEAD') {
+		childNodes = childNodes[0].childNodes;
+	}
+	if (childNodes.length == 1 && !/<tr|<TR/.test(htmlString) &&  childNodes[0].nodeName === 'TR') {
+		childNodes = childNodes[0].childNodes;
+	}
+	if (childNodes.length == 1 && !/<td|<TD/.test(htmlString) && childNodes[0].nodeName === 'TD') {
+		childNodes = childNodes[0].childNodes;
+	}
+	if (childNodes.length == 1 && !/<th|<TH/.test(htmlString) && childNodes[0].nodeName === 'TH') {
+		childNodes = childNodes[0].childNodes;
+	}
+	jToolDOM.remove();
+	return childNodes;
+}
+
 module.exports = {
 	isWindow: isWindow,
 	isChrome: isChrome,
@@ -527,7 +565,9 @@ module.exports = {
 	isEmptyObject: isEmptyObject,
 	trim: trim,
 	error: error,
-	each: each
+	each: each,
+	createDOM: createDOM,
+	version: '0.0.1'
 };
 
 },{}]},{},[5]);

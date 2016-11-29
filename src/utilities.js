@@ -13,7 +13,9 @@ var class2type = {
 	'[object RegExp]': 'regexp',
 	'[object Null]': 'null',
 	'[object NodeList]': 'nodeList',
-	'[object Arguments]': 'arguments'
+	'[object Arguments]': 'arguments',
+	'[object Window]': 'window',
+	'[object HTMLDocument]': 'document'
 };
 
 function isChrome() {

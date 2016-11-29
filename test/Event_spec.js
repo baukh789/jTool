@@ -81,6 +81,17 @@ describe('Event', function() {
 
 		expect(clickHandler.calls.count()).toBe(1);
 	});
+	// 只有click事件可以通过trigger进行调用, 需要修改.(但是通过真实的事件触发,是不会有问题的)
+	it('子选择器预绑定事件', function () {
+		var clickHandler = jasmine.createSpy('clickHandler');
+		jTool('#p1').on('click', 'span', clickHandler);
+		var span1 = document.createElement('span');
+		span1.className = 'span1';
+		document.querySelector('#p1').appendChild(span1);
+		jTool('.span1').trigger('click');
+		expect(clickHandler.calls.count()).toBe(1);
+	});
+
 
 
 });

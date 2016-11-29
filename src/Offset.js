@@ -41,11 +41,11 @@ var Offset = {
 			getOffset(node.parentNode);
 		}
 	},
-	// 获取|设置 匹配元素相对滚动条顶部的偏移
+	// 获取|设置 匹配元素相对滚动条顶部的偏移 value is number
 	scrollTop: function (value) {
 		return this.scrollFN(value, 'top');
 	},
-	// 获取|设置 匹配元素相对滚动条左部的偏移
+	// 获取|设置 匹配元素相对滚动条左部的偏移 value is number
 	scrollLeft: function (value) {
 		return this.scrollFN(value, 'left');
 	},
@@ -54,7 +54,6 @@ var Offset = {
 		var node = this.DOMList[0];
 		// setter
 		if (value || value === 0) {
-			// ''.indexOf.call(value, 'px') !== -1 ? value = value + 'px' : '';
 			this.setScrollFN(node, type, value);
 			return this;
 		}

@@ -49,6 +49,7 @@ describe('Offset', function() {
 
 		divEle5 = document.createElement('div');
 		divEle5.style.height = '2000px';
+		divEle5.style.width = '2000px';
 		divEle5.id = 'div5';
 		divEle2.appendChild(divEle5);
 
@@ -79,15 +80,29 @@ describe('Offset', function() {
 		expect(jTool('#div4').offset()).toEqual({top: clientRectDiv4.top + window.scrollY, left: clientRectDiv4.left + window.scrollX});
 	});
 
-	it('scrollTop', function() {
+	it('get scrollTop', function() {
 		expect(jTool(window).scrollTop()).toBe(window.pageYOffset);
 		expect(jTool(document).scrollTop()).toBe(document.body.scrollTop);
 		expect(jTool('#div5').scrollTop()).toBe(divEle5.scrollTop);
 	});
 
-	it('scrollLeft', function() {
+	it('get scrollLeft', function() {
 		expect(jTool(window).scrollLeft()).toBe(window.pageXOffset);
 		expect(jTool(document).scrollLeft()).toBe(document.body.scrollLeft);
 		expect(jTool('#div5').scrollLeft()).toBe(divEle5.scrollLeft);
+	});
+
+	it('set scrollTop', function() {
+		jTool(window).scrollTop(700);
+		expect(window.pageYOffset).toBe(700);
+		jTool(document).scrollTop(600);
+		expect(document.body.scrollTop).toBe(600);
+	});
+
+	it('set scrollLeft', function() {
+		jTool(window).scrollLeft(700);
+		expect(window.pageXOffset).toBe(700);
+		jTool(document).scrollLeft(600);
+		expect(document.body.scrollLeft).toBe(600);
 	});
 });

@@ -29,6 +29,7 @@ function testAnimate() {
 		console.log('高度等于200px了');
 	});
 }
+*/
 
 //testOffset();
 function testOffset(){
@@ -86,7 +87,6 @@ function testBind(){
 function testSizzle(){
 	console.log($('.t1'));
 }
-*/
 // 测试ajax
 testAjax();
 function testAjax(){
@@ -120,6 +120,7 @@ function testPost(){
 		console.log(status);
 	});
 }
+*/
 
 // 测试html
 // testHtml();
@@ -146,4 +147,3 @@ function testPrepend(){
 	$('div').prepend('123123');
 	$('div').prepend('<font style="color:red;">hello world</font>');
 }
-*/

@@ -1,6 +1,314 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var utilities = require('./utilities');
 
+var _Class = {
+
+    addClass: function(className) {
+        return this.changeClass(className, 'add');
+    },
+
+	removeClass: function(className) {
+        return this.changeClass(className, 'remove');
+    },
+
+	toggleClass: function(className) {
+        return this.changeClass(className, 'toggle');
+    },
+
+	// 不支持多 className
+    hasClass: function(className) {
+	    return [].some.call(this.DOMList, function(dom) {
+			return dom.classList.contains(className);
+	    });
+    },
+
+    // 解析className 将以空格间格的字符串分割为数组
+    parseClassName: function(className) {
+        return className.indexOf(' ') ?  className.split(' ') : [className];
+    },
+
+    // 执行指定classList方法
+    changeClass: function(className, exeName) {
+        var classNameList = this.parseClassName(className);
+	    utilities.each(this.DOMList, function(i, dom) {
+		    utilities.each(classNameList, function(index, name){
+                dom.classList[exeName](name);
+            });
+        });
+        return this;
+    }
+};
+
+module.exports = _Class;
+
+},{"./utilities":11}],2:[function(require,module,exports){
+/*
+ * CSS
+ * */
+var utilities = require('./utilities');
+
+var _CSS = {
+	// 如果长度是带 px 的值, 会将其转换成 数字
+	// 其他情况 不做处理, 返回对应的字符串
+	// TODO 颜色处理 返回16进制颜色值, 考虑 rgba 的情况
+	css: function(key, value) {
+		var _this = this;
+
+		var pxList = ['width', 'height', 'top', 'left', 'right', 'bottom',
+			'padding-top', 'padding-right', 'padding-bottom', 'padding-left',
+			'margin-top', 'margin-right', 'margin-bottom', 'margin-left',
+			'border-width', 'border-top-width', 'border-left-width', 'border-right-width', 'border-bottom-width'];
+
+		// getter
+		if (utilities.type(key) === 'string' && (!value && value !== 0)) {
+			if (pxList.includes(key)) {
+				return parseInt(utilities.getStyle(this.DOMList[0], key), 10);
+			} else {
+				return utilities.getStyle(this.DOMList[0], key);
+			}
+		}
+
+		// setter
+		// ex: {width:13px, height:10px}
+		if (utilities.type(key) === 'object') {
+			var obj = key;
+			for(var k in obj){
+				setStyle(k, obj[k]);
+			}
+		}
+		// ex: width, 13px
+		else {
+			setStyle(key, value);
+		}
+
+		function setStyle(name, val) {
+			if (utilities.type(val) === 'number') {
+				val = val.toString();
+			}
+			if (pxList.includes(name) && val.indexOf('px') === -1) {
+				val = val + 'px';
+			}
+			utilities.each(_this.DOMList, function(i, v) {
+				v.style[name] = val;
+			});
+		}
+		return this;
+	},
+
+	width: function(value){
+		return this.css('width', value);
+	},
+
+	height: function(value){
+		return this.css('height', value);
+	}
+};
+
+module.exports = _CSS;
+
+},{"./utilities":11}],3:[function(require,module,exports){
+/*
+ * 文档操作
+ * */
+var utilities = require('./utilities');
+var Sizzle = require('./Sizzle');
+
+var _Document = {
+	append: function(childList){
+		return this.html(childList, 'append');
+	},
+
+	prepend: function(childList){
+		return this.html(childList, 'prepend');
+	},
+
+	before: function (node) {
+		if(node.jTool){
+			node = node.DOMList[0];
+		}
+		var thisNode = this.DOMList[0];
+		var parentEl = thisNode.parentNode;
+		parentEl.insertBefore(node, thisNode);
+		return this;
+	},
+
+	after: function (node) {
+		if(node.jTool){
+			node = node.DOMList[0];
+		}
+		var thisNode = this.DOMList[0];
+		var parentEl = thisNode.parentNode;
+		if(parentEl.lastChild == thisNode){
+			parentEl.appendChild(node);
+		}else{
+			parentEl.insertBefore(node, thisNode.nextSibling);
+		}
+		//  parentEl.insertBefore(node, thisNode);
+	},
+	text: function(text){
+		// setter
+		if (typeof(text) !== 'undefined') {
+			utilities.each(this.DOMList, function(i, v){
+				v.textContent = text;
+			});
+			return this;
+			// getter
+		} else {
+			return this.DOMList[0].textContent;
+		}
+	},
+	html: function(childList, insertType) {
+		// getter
+		if (typeof(childList) == 'undefined' && typeof(insertType) == 'undefined') {
+			return this.DOMList[0].innerHTML;
+		}
+		// setter
+		var _this = this;
+		var type = utilities.type(childList);
+		if (childList.jTool) {
+			childList = childList.DOMList;
+		}
+		else if(type === 'string'){
+			childList = utilities.createDOM(childList || '');
+		}
+		else if(type === 'element'){
+			childList = [childList];
+		}
+		var firstChild;
+		utilities.each(_this.DOMList, function(e, element){
+			// html
+			if(!insertType){
+				element.innerHTML = '';
+			}
+			// prepend
+			else if (insertType === 'prepend') {
+				firstChild = element.firstChild;
+			}
+			utilities.each(childList, function(c, child) {
+				child = child.cloneNode(true);
+				// text node
+				if(!child.nodeType){
+					child = document.createTextNode(child);
+				}
+				if(firstChild){
+					element.insertBefore(child, firstChild);
+				}
+				else{
+					element.appendChild(child);
+				}
+				element.normalize();
+			});
+		});
+		return this;
+	},
+	// TODO 这个方法有问题
+	wrap: function (elementText) {
+		var selfDOM = '', //存储当前node 的html
+			parentNode;  // 存储父节点
+		utilities.each(this.DOMList, function(i, v){
+			selfDOM = v;
+			parentNode = v.parentNode;
+			v.outerHTML = elementText;
+			// 将原节点添加入wrap中第一个为空的节点内
+			parentNode.querySelector(':empty').appendChild(selfDOM);
+		});
+		return this;
+	},
+	// 向上寻找匹配节点
+	closest: function(selectorText) {
+		var _this = this;
+		var parentDOM = this.DOMList[0].parentNode;
+		if (typeof selectorText === 'undefined') {
+			return new Sizzle(parentDOM);
+		}
+		var target = document.querySelectorAll(selectorText);
+
+		// 递归查找匹配的父级元素
+		function getParentNode() {
+			if (!parentDOM || target.length === 0 || parentDOM.nodeType !== 1) {
+				parentDOM = null;
+				return;
+			}
+
+			if ([].indexOf.call(target, parentDOM) !== -1) {
+				return;
+			}
+
+			parentDOM = parentDOM.parentNode;
+
+			getParentNode();
+		}
+
+		getParentNode();
+
+		return new Sizzle(parentDOM);
+	},
+
+	// 获取当前元素父级,返回jTool对象
+	parent: function() {
+		return this.closest();
+	},
+	//克隆节点: 参数deep克隆节点及其后代
+	clone: function(deep) {
+		return new Sizzle(this.DOMList[0].cloneNode(deep || false));
+	},
+	//批量删除节点
+	remove: function() {
+		utilities.each(this.DOMList, function(i, v) {
+			v.remove();
+		});
+	}
+};
+
+module.exports = _Document;
+
+},{"./Sizzle":7,"./utilities":11}],4:[function(require,module,exports){
+var utilities = require('./utilities');
+var Sizzle = require('./Sizzle');
+
+var _Element = {
+	// 获取指定DOM Element
+	get: function(index){
+		return this.DOMList[index];
+	},
+
+	// 获取指定索引的jTool对象
+	eq: function(index){
+		return new Sizzle(this.DOMList[index]);
+	},
+
+	// 返回指定选择器的jTool对象
+	find: function(selectText) {
+		return new Sizzle(selectText, this);
+	},
+
+	// 获取与 th 同列的 td jTool 对象, 该方法的调用者只允许为 Th
+	getRowTd: function() {
+		var th = this.eq(0);
+		if (th.get(0).tagName.toUpperCase() !== 'TH') {
+			utilities.error('getRowTd的调用者只允许为Th');
+			return;
+		}
+
+		var table = th.closest('table'),
+			trList = new Sizzle('tbody tr', table);
+
+		var tdList = [],
+			thIndex = th.index();
+
+		utilities.each(trList, function(i, v) {
+			tdList.push(new Sizzle('td', v).get(thIndex));
+		});
+
+		return new Sizzle(tdList);
+	}
+};
+
+module.exports = _Element;
+
+},{"./Sizzle":7,"./utilities":11}],5:[function(require,module,exports){
+var utilities = require('./utilities');
+
 var _Event = {
 
 	on: function(event, querySelector, callback, useCapture) {
@@ -24,7 +332,7 @@ var _Event = {
 		utilities.each(this.DOMList, function(e, element){
 			try {
 				// TODO 潜在风险 window 不支持这样调用事件
-				element['jToolEvent'][event]();
+				element.jToolEvent[event]();
 			} catch(err) {
 				utilities.error(err);
 			}
@@ -124,7 +432,106 @@ var _Event = {
 
 module.exports = _Event;
 
-},{"./utilities":6}],2:[function(require,module,exports){
+},{"./utilities":11}],6:[function(require,module,exports){
+/*
+ * 位置
+ * */
+var utilities = require('./utilities');
+
+var Offset = {
+
+	// 获取匹配元素在当前视口的相对偏移。
+	offset: function() {
+		var offest = {
+			top: 0,
+			left: 0
+		};
+
+		var _position;
+
+		getOffset(this.DOMList[0], true);
+
+		return offest;
+
+		// 递归获取 offset, 可以考虑使用 getBoundingClientRect
+		function getOffset(node, init) {
+			if (node.nodeType !== 1) {
+				return;
+			}
+			_position = utilities.getStyle(node, 'position');
+
+			// position=static: 继续递归父节点
+			if (typeof(init) === 'undefined' && _position === 'static') {
+				getOffset(node.parentNode);
+				return;
+			}
+
+			offest.top = node.offsetTop + offest.top;
+			offest.left = node.offsetLeft + offest.left;
+			// position = fixed
+			if (_position === 'fixed') {
+				return;
+			}
+
+			getOffset(node.parentNode);
+		}
+	},
+	// 获取|设置 匹配元素相对滚动条顶部的偏移 value is number
+	scrollTop: function (value) {
+		return this.scrollFN(value, 'top');
+	},
+	// 获取|设置 匹配元素相对滚动条左部的偏移 value is number
+	scrollLeft: function (value) {
+		return this.scrollFN(value, 'left');
+	},
+	// 根据参数对位置操作进行get,set分类操作
+	scrollFN: function(value, type) {
+		var node = this.DOMList[0];
+		// setter
+		if (value || value === 0) {
+			this.setScrollFN(node, type, value);
+			return this;
+		}
+		// getter
+		else {
+			return this.getScrollFN(node, type);
+		}
+	},
+	// 根据元素的不同对滚动轴进行获取
+	getScrollFN: function(node, type){
+		// node => window
+		if (utilities.isWindow(node)) {
+			return type === 'top' ? node.pageYOffset : node.pageXOffset;
+		}
+		// node => document
+		else if (node.nodeType === 9) {
+			return type === 'top' ? node.body.scrollTop : node.body.scrollLeft;
+		}
+		// node => element
+		else if (node.nodeType === 1) {
+			return type === 'top' ? node.scrollTop : node.scrollLeft;
+		}
+	},
+	// 根据元素的不同对滚动轴进行设置
+	setScrollFN: function(node, type, value){
+		// node => window
+		if (utilities.isWindow(node)) {
+			return type === 'top' ? node.document.body.scrollTop = value : node.document.body.scrollLeft = value;
+		}
+		// node => document
+		else if (node.nodeType === 9) {
+			return type === 'top' ? node.body.scrollTop = value : node.body.scrollLeft = value;
+		}
+		// node => element
+		else if (node.nodeType === 1) {
+			return type === 'top' ? node.scrollTop = value : node.scrollLeft = value;
+		}
+	}
+};
+
+module.exports = Offset;
+
+},{"./utilities":11}],7:[function(require,module,exports){
 /**
  * Created by baukh on 16/11/25.
  */
@@ -174,7 +581,7 @@ var Sizzle = function(selector, context) {
 	// selector -> Html String
 	else if (/<.+>/.test(selector)) {
 		// TODO
-		// DOMList = jTool.prototype.createDOM(selector);
+		DOMList = utilities.createDOM(selector);
 		context = undefined;
 	}
 
@@ -241,7 +648,7 @@ var Sizzle = function(selector, context) {
 
 module.exports = Sizzle;
 
-},{"./utilities":6}],3:[function(require,module,exports){
+},{"./utilities":11}],8:[function(require,module,exports){
 /*
  * ajax
  * type === GET: data格式 name=baukh&age=29
@@ -326,7 +733,7 @@ module.exports = {
 	post: post
 };
 
-},{"./extend":4,"./utilities":6}],4:[function(require,module,exports){
+},{"./extend":9,"./utilities":11}],9:[function(require,module,exports){
 // 可以使用 Object.assign() 方法完成该功能
 
 function extend() {
@@ -365,17 +772,20 @@ function extend() {
 
 module.exports = extend;
 
-},{}],5:[function(require,module,exports){
-
-
+},{}],10:[function(require,module,exports){
 var Sizzle = require('./Sizzle');
 var Extend = require('./extend');
 var Utilities = require('./utilities');
 var Ajax = require('./ajax');
 var Event = require('./Event');
+var Css = require('./Css');
+var Class = require('./Class');
+var Document = require('./Document');
+var Offset = require('./Offset');
+var Element = require('./Element');
 
 // 如果需要集成Angular,React,在此处进行集成
-var $ = jTool = function (selector, context){
+var jTool = function (selector, context){
     return new Sizzle(selector, context);
 };
 
@@ -388,10 +798,17 @@ jTool.extend(Ajax);
 
 //捆绑jTool 方法
 jTool.prototype.extend(Event);
+jTool.prototype.extend(Css);
+jTool.prototype.extend(Class);
+jTool.prototype.extend(Document);
+jTool.prototype.extend(Offset);
+jTool.prototype.extend(Element);
+
+window.jTool = jTool;
 
 module.exports = jTool;
 
-},{"./Event":1,"./Sizzle":2,"./ajax":3,"./extend":4,"./utilities":6}],6:[function(require,module,exports){
+},{"./Class":1,"./Css":2,"./Document":3,"./Element":4,"./Event":5,"./Offset":6,"./Sizzle":7,"./ajax":8,"./extend":9,"./utilities":11}],11:[function(require,module,exports){
 var toString = Object.prototype.toString;
 
 var class2type = {
@@ -514,6 +931,44 @@ function toHyphen(text) {
 	return text.replace(/([A-Z])/g,"-$1").toLowerCase();
 }
 
+// 通过html字符串, 生成DOM.  返回生成后的子节点
+// 该方法无处处理包含table标签的字符串,但是可以处理table下属的标签
+function createDOM(htmlString) {
+	var jToolDOM = document.querySelector('#jTool-create-dom');
+	if (!jToolDOM || jToolDOM.length === 0) {
+		// table标签 可以在新建element时可以更好的容错.
+		// div标签, 添加thead,tbody等表格标签时,只会对中间的文本进行创建
+		// table标签,在添加任务标签时,都会成功生成.且会对table类标签进行自动补全
+		var el = document.createElement('table');
+		el.id = 'jTool-create-dom';
+		el.style.display = 'none';
+		document.body.appendChild(el);
+		jToolDOM = document.querySelector('#jTool-create-dom');
+	}
+
+	jToolDOM.innerHTML = htmlString || '';
+	var childNodes = jToolDOM.childNodes;
+
+	// 进行table类标签清理, 原因是在增加如th,td等table类标签时,浏览器会自动补全节点.
+	if (childNodes.length == 1 && !/<tbody|<TBODY/.test(htmlString) && childNodes[0].nodeName === 'TBODY') {
+		childNodes = childNodes[0].childNodes;
+	}
+	if (childNodes.length == 1 && !/<thead|<THEAD/.test(htmlString) && childNodes[0].nodeName === 'THEAD') {
+		childNodes = childNodes[0].childNodes;
+	}
+	if (childNodes.length == 1 && !/<tr|<TR/.test(htmlString) &&  childNodes[0].nodeName === 'TR') {
+		childNodes = childNodes[0].childNodes;
+	}
+	if (childNodes.length == 1 && !/<td|<TD/.test(htmlString) && childNodes[0].nodeName === 'TD') {
+		childNodes = childNodes[0].childNodes;
+	}
+	if (childNodes.length == 1 && !/<th|<TH/.test(htmlString) && childNodes[0].nodeName === 'TH') {
+		childNodes = childNodes[0].childNodes;
+	}
+	jToolDOM.remove();
+	return childNodes;
+}
+
 module.exports = {
 	isWindow: isWindow,
 	isChrome: isChrome,
@@ -527,7 +982,9 @@ module.exports = {
 	isEmptyObject: isEmptyObject,
 	trim: trim,
 	error: error,
-	each: each
+	each: each,
+	createDOM: createDOM,
+	version: '0.0.1'
 };
 
-},{}]},{},[5]);
+},{}]},{},[10]);

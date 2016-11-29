@@ -47,7 +47,7 @@ var Sizzle = function(selector, context) {
 	// selector -> Html String
 	else if (/<.+>/.test(selector)) {
 		// TODO
-		// DOMList = jTool.prototype.createDOM(selector);
+		DOMList = utilities.createDOM(selector);
 		context = undefined;
 	}
 

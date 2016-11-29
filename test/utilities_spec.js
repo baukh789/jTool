@@ -162,7 +162,8 @@ describe('utilities', function() {
 		expect(utilities.isWindow(window)).toBe(true);
 	});
 
-	// it('isChrome', function() {
-	// 	expect(utilities.isChrome()).toBe(false);
-	// });
+	it('createDOM', function() {
+		expect(utilities.createDOM('<div id="haha">hahaha</div>')[0].id).toBe('haha');
+		expect(document.getElementById('jTool-create-dom')).toBe(null);
+	});
 });

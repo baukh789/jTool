@@ -61,7 +61,7 @@ var _CSS = {
 
 		// getter
 		if (utilities.type(key) === 'string' && (!value && value !== 0)) {
-			if (pxList.includes(key)) {
+			if (pxList.indexOf(key) !== -1) {
 				return parseInt(utilities.getStyle(this.DOMList[0], key), 10);
 			} else {
 				return utilities.getStyle(this.DOMList[0], key);
@@ -85,7 +85,7 @@ var _CSS = {
 			if (utilities.type(val) === 'number') {
 				val = val.toString();
 			}
-			if (pxList.includes(name) && val.indexOf('px') === -1) {
+			if (pxList.indexOf(name) !== -1 && val.indexOf('px') === -1) {
 				val = val + 'px';
 			}
 			utilities.each(_this.DOMList, function(i, v) {
@@ -812,7 +812,7 @@ var _Element = require('./Element');
 
 // 如果需要集成Angular,React,在此处进行集成
 var jTool = function (selector, context){
-    return new Sizzle(selector, context);
+	return new Sizzle(selector, context);
 };
 
 // 把jquery原先的jQuery.fn给省略了.原先的方式是 init = jQuery.fn.init; init.prototype = jQuery.fn;

@@ -12,7 +12,10 @@
 # jTool的实现理念
 这么多年来一直使用的都是 jQuery 或直接上手原生 JS, jTool 使用方法和 API 基本上参考 jQuery.
 jTool 用一样的 API, 不一样的逻辑, 实现相同的功能. 这就是 jTool.js 的编码理念.
-
+### 安装方式
+```
+npm install jTool
+```
 ### 引入方式
 ```
 <script type="text/javascript" src="build/jTool.js"></script>

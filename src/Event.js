@@ -5,7 +5,7 @@
  * querySelector: 子选择器
  * callback: 事件触发后执行的函数
  * useCapture: 指定事件是否在捕获或冒泡阶段执行.true - 事件句柄在捕获阶段执行 false- 默认。事件句柄在冒泡阶段执行
- *
+ * http://stackoverflow.com/questions/2381572/how-can-i-trigger-a-javascript-event-click
  * --注意事项--
  * #Event001: 预绑定的事件,无法通过new Event().dispatchEvent()来执行,所以通过属性调用的方式来触发.
  *            存在父级的元素不会是window 或document 所以不会存在问题.
@@ -41,15 +41,15 @@ var _Event = {
 		utilities.each(this.DOMList, function(index, element){
 			try {
 				// #Event001: trigger的事件是直接绑定在当前DOM上的
-				if(element.jToolEvent && element.jToolEvent[event].length > 0){
+				if (element.jToolEvent && element.jToolEvent[event].length > 0) {
 					var myEvent = new Event(event); // #Event002: 创建一个事件对象，用于模拟trigger效果
-					element.dispatchEvent(myEvent)
+					element.dispatchEvent(myEvent);
 				}
 				// trigger的事件是预绑定在父级或以上级DOM上的
-				else{
+				else {
 					element[event]();
 				}
-			}catch(e){
+			} catch(e) {
 				utilities.error('事件:['+ event +']未能正确执行, 请确定方法已经绑定成功');
 			}
 		});
@@ -60,8 +60,8 @@ var _Event = {
 	getEventObject: function(event, querySelector, callback, useCapture) {
 		// $(dom).on(event, callback);
 		if (typeof querySelector === 'function') {
-			callback = querySelector;
 			useCapture = callback || false;
+			callback = querySelector;
 			querySelector = undefined;
 		}
 		// event callback 为必要参数
@@ -71,7 +71,7 @@ var _Event = {
 		}
 
 		// 子选择器不存在 或 当前DOM对象包含Window Document 则将子选择器置空
-		if(!querySelector || jTool.type(this.DOMList[0]) !== 'element'){
+		if(!querySelector || utilities.type(this.DOMList[0]) !== 'element'){
 			querySelector = '';
 		}
 		// #Event003 存在子选择器 -> 包装回调函数, 回调函数的参数

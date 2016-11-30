@@ -2,12 +2,12 @@ var Sizzle = require('./Sizzle');
 var Extend = require('./extend');
 var Utilities = require('./utilities');
 var Ajax = require('./ajax');
-var Event = require('./Event');
-var Css = require('./Css');
-var Class = require('./Class');
-var Document = require('./Document');
-var Offset = require('./Offset');
-var Element = require('./Element');
+var _Event = require('./Event');
+var _Css = require('./Css');
+var _Class = require('./Class');
+var _Document = require('./Document');
+var _Offset = require('./Offset');
+var _Element = require('./Element');
 
 // 如果需要集成Angular,React,在此处进行集成
 var jTool = function (selector, context){
@@ -22,12 +22,12 @@ jTool.extend(Utilities);
 jTool.extend(Ajax);
 
 //捆绑jTool 方法
-jTool.prototype.extend(Event);
-jTool.prototype.extend(Css);
-jTool.prototype.extend(Class);
-jTool.prototype.extend(Document);
-jTool.prototype.extend(Offset);
-jTool.prototype.extend(Element);
+jTool.prototype.extend(_Event);
+jTool.prototype.extend(_Css);
+jTool.prototype.extend(_Class);
+jTool.prototype.extend(_Document);
+jTool.prototype.extend(_Offset);
+jTool.prototype.extend(_Element);
 
 window.jTool = jTool;
 

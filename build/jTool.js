@@ -313,13 +313,16 @@ module.exports = _Element;
  * event: 事件名
  * querySelector: 子选择器
  * callback: 事件触发后执行的函数
- * useCapture: 指定事件是否在捕获或冒泡阶段执行.true - 事件句柄在捕获阶段执行 false- false- 默认。事件句柄在冒泡阶段执行
- *
+ * useCapture: 指定事件是否在捕获或冒泡阶段执行.true - 事件句柄在捕获阶段执行 false- 默认。事件句柄在冒泡阶段执行
+ * http://stackoverflow.com/questions/2381572/how-can-i-trigger-a-javascript-event-click
  * --注意事项--
- * #Event001: 如果存在子选择器,会对回调函数进行包装, 以达到在触发事件时所传参数为当前的window.event对象
+ * #Event001: 预绑定的事件,无法通过new Event().dispatchEvent()来执行,所以通过属性调用的方式来触发.
+ *            存在父级的元素不会是window 或document 所以不会存在问题.
+ *            目前只有click事件可以通过trigger进行调用, 需要修改.(但是通过真实的事件触发,是不会有问题的)
  * #Event002: 当前使用的是new Event().dispatchEvent();
  *            并未使用document.createEvent('HTMLEvents').initEvent(event, true, true).dispatchEvent()
  *            原因是initEvent已经被新的DOM标准废弃了。
+ * #Event003: 如果存在子选择器,会对回调函数进行包装, 以达到在触发事件时所传参数为当前的window.event对象
  * --ex--
  * 在选择元素上绑定一个或多个事件的事件处理函数: .bind('click mousedown', function(){}) 或.on('click mousedown', function(){})
  * 在选择元素上为当前并不存在的子元素绑定事件处理函数: .on('click mousedown', '.test', function(){})
@@ -346,10 +349,16 @@ var _Event = {
 	trigger: function(event) {
 		utilities.each(this.DOMList, function(index, element){
 			try {
-				// #Event002: 创建一个事件对象，用于模拟trigger效果
-				var myEvent = new Event(event);
-				element.dispatchEvent(myEvent);
-			}catch(e){
+				// #Event001: trigger的事件是直接绑定在当前DOM上的
+				if (element.jToolEvent && element.jToolEvent[event].length > 0) {
+					var myEvent = new Event(event); // #Event002: 创建一个事件对象，用于模拟trigger效果
+					element.dispatchEvent(myEvent);
+				}
+				// trigger的事件是预绑定在父级或以上级DOM上的
+				else {
+					element[event]();
+				}
+			} catch(e) {
 				utilities.error('事件:['+ event +']未能正确执行, 请确定方法已经绑定成功');
 			}
 		});
@@ -360,8 +369,8 @@ var _Event = {
 	getEventObject: function(event, querySelector, callback, useCapture) {
 		// $(dom).on(event, callback);
 		if (typeof querySelector === 'function') {
-			callback = querySelector;
 			useCapture = callback || false;
+			callback = querySelector;
 			querySelector = undefined;
 		}
 		// event callback 为必要参数
@@ -371,10 +380,10 @@ var _Event = {
 		}
 
 		// 子选择器不存在 或 当前DOM对象包含Window Document 则将子选择器置空
-		if(!querySelector || jTool.type(this.DOMList[0]) !== 'element'){
+		if(!querySelector || utilities.type(this.DOMList[0]) !== 'element'){
 			querySelector = '';
 		}
-		// #Event001 存在子选择器 -> 包装回调函数, 回调函数的参数
+		// #Event003 存在子选择器 -> 包装回调函数, 回调函数的参数
 		if(querySelector !== ''){
 			var fn = callback;
 			callback = function(e){
@@ -794,12 +803,12 @@ var Sizzle = require('./Sizzle');
 var Extend = require('./extend');
 var Utilities = require('./utilities');
 var Ajax = require('./ajax');
-var Event = require('./Event');
-var Css = require('./Css');
-var Class = require('./Class');
-var Document = require('./Document');
-var Offset = require('./Offset');
-var Element = require('./Element');
+var _Event = require('./Event');
+var _Css = require('./Css');
+var _Class = require('./Class');
+var _Document = require('./Document');
+var _Offset = require('./Offset');
+var _Element = require('./Element');
 
 // 如果需要集成Angular,React,在此处进行集成
 var jTool = function (selector, context){
@@ -814,12 +823,12 @@ jTool.extend(Utilities);
 jTool.extend(Ajax);
 
 //捆绑jTool 方法
-jTool.prototype.extend(Event);
-jTool.prototype.extend(Css);
-jTool.prototype.extend(Class);
-jTool.prototype.extend(Document);
-jTool.prototype.extend(Offset);
-jTool.prototype.extend(Element);
+jTool.prototype.extend(_Event);
+jTool.prototype.extend(_Css);
+jTool.prototype.extend(_Class);
+jTool.prototype.extend(_Document);
+jTool.prototype.extend(_Offset);
+jTool.prototype.extend(_Element);
 
 window.jTool = jTool;
 

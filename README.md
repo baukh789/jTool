@@ -3,7 +3,6 @@
 [![Build Status](https://img.shields.io/travis/baukh789/jTool.svg?style=flat-square)](https://travis-ci.org/baukh789/jTool)
 [![npm version](https://img.shields.io/npm/v/jTool.svg?style=flat-square)](https://www.npmjs.com/package/jTool)
 [![npm downloads](https://img.shields.io/npm/dt/jTool.svg?style=flat-square)](https://www.npmjs.com/package/jTool)
-[![coverage](https://img.shields.io/codecov/c/github/baukh789/jTool.svg?style=flat-square)](https://codecov.io/gh/baukh789/jTool)
 
 
 # jTool从哪里来

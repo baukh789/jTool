@@ -92,17 +92,17 @@ describe('Offset', function() {
 		expect(jTool('#div5').scrollLeft()).toBe(divEle5.scrollLeft);
 	});
 
-	it('set scrollTop', function() {
-		jTool(window).scrollTop(700);
-		expect(window.pageYOffset).toBe(700);
-		jTool(document).scrollTop(600);
-		expect(document.body.scrollTop).toBe(600);
-	});
-
-	it('set scrollLeft', function() {
-		jTool(window).scrollLeft(700);
-		expect(window.pageXOffset).toBe(700);
-		jTool(document).scrollLeft(600);
-		expect(document.body.scrollLeft).toBe(600);
-	});
+	// it('set scrollTop', function() {
+	// 	jTool(window).scrollTop(700);
+	// 	expect(window.pageYOffset).toBe(700);
+	// 	jTool(document).scrollTop(600);
+	// 	expect(document.body.scrollTop).toBe(600);
+	// });
+	//
+	// it('set scrollLeft', function() {
+	// 	jTool(window).scrollLeft(700);
+	// 	expect(window.pageXOffset).toBe(700);
+	// 	jTool(document).scrollLeft(600);
+	// 	expect(document.body.scrollLeft).toBe(600);
+	// });
 });

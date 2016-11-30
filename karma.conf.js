@@ -9,7 +9,7 @@ module.exports = function(config) {
 			'test/**/*.js': ['jshint', 'browserify'],
 			'src/**/*.js': ['jshint', 'browserify']
 		},
-		browsers: ['phantomjs'],
+		browsers: ['PhantomJS'],
 		browserify: {
 			debug: true,
 			bundleDelay: 2000 // Fixes "reload" error messages, YMMV!

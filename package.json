@@ -26,8 +26,8 @@
   "scripts": {
     "lint": "jshint src test",
     "test": "karma start",
-    "build": "rm -fr build/jTool.js && browserify src/index.js > build/jTool.js",
-    "build:minified": "rm -fr build/jTool.min.js browserify src/index.js | uglifyjs -mc > build/jTool.min.js",
-    "pub": "npm run build && npm run build:minified && npm publish build && cnpm sync jTool"
+    "build": "browserify src/index.js > build/jTool.js",
+    "build:minified": "browserify src/index.js | uglifyjs -mc > build/jTool.min.js",
+    "pub": "npm run build && npm run build:minified && npm publish && cnpm sync jTool"
   }
 }

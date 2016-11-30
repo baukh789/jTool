@@ -13,6 +13,8 @@ module.exports = function(config) {
 		browserify: {
 			debug: true,
 			bundleDelay: 2000 // Fixes "reload" error messages, YMMV!
-		}
+		},
+		singleRun: true,
+		concurrency: Infinity
 	});
 };

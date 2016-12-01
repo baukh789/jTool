@@ -30,7 +30,35 @@ describe('Animate', function() {
 		jTool = null;
 	});
 
+	it('data', function() {
+		jTool('#div1').data('name', 'baukh');
+		expect(jTool('#div1').data('name')).toBe('baukh');
+		jTool('#div1').removeData('name');
+		expect(jTool('#div1').data('name')).toBe(undefined);
+		jTool('#div1').data('people', {name: 'baukh', sex: 'man'});
+		expect(jTool('#div1').data('people')).toEqual({name: 'baukh', sex: 'man'});
+		jTool('#div1').removeData('people');
+		expect(jTool('#div1').data('people')).toBe(undefined);
+	});
 
-	it('测试animate回调函数', function() {
+	it('attr', function() {
+		jTool('#div1').attr('jtool', 'baukh');
+		expect(jTool('#div1').attr('jtool')).toBe('baukh');
+		jTool('#div1').removeAttr('jtool');
+		expect(jTool('#div1').attr('jtool')).toBe(undefined);
+	});
+
+	it('prop', function() {
+		jTool('#div1').prop('class', 'baukh');
+		expect(jTool('#div1').prop('class')).toBe('baukh');
+		jTool('#div1').removeProp('class');
+		expect(jTool('#div1').prop('class')).toBe(undefined);
+	});
+
+	it('val', function() {
+		jTool('#div1').val('baukh');
+		expect(jTool('#div1').val()).toBe('baukh');
+		jTool('#div1').val('');
+		expect(jTool('#div1').val()).toBe('');
 	});
 });

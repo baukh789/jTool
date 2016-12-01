@@ -1,5 +1,10 @@
 /*
  * 属性 数据
+ * --注意事项--
+ * #Data0001: 存储值类型为字符或数字时使用setAttribute, Object则存储在dom.dataKey属性下
+ * #Data0002: 获取操作会优先获取dom.dataKey, 如果没有则通过获取getAttribute进行获取
+ * #Data0003: removeData时需要同时清除dom上所对应的属性,而removeAttr则不会清除通过data存储的数据
+ * #Data0004: get操作时, 如果无有效值,则返回undefined
  * */
 var utilities = require('./utilities');
 
@@ -16,8 +21,8 @@ var _Data = {
 		}
 		// setter
 		if (typeof(value) !== 'undefined') {
-			// 存储值类型为字符或数字时, 使用attr执行
 			var _type = utilities.type(value);
+			// #Data0001: 存储值类型为字符或数字时, 使用attr执行
 			if (_type === 'string' || _type === 'number') {
 				_this.attr(key, value);
 			}
@@ -31,7 +36,8 @@ var _Data = {
 		// getter
 		else{
 			_data = _this.DOMList[0][_this.dataKey] || {};
-			return _data[key] || _this.attr(key);
+			//#Data0002: 获取操作会优先获取dom.dataKey, 如果没有则通过获取getAttribute进行获取
+			return _data[key] || _this.attr(key) || undefined;
 		}
 	},
 	// 删除对象类属性
@@ -45,6 +51,8 @@ var _Data = {
 			_data = v[_this.dataKey] || {};
 			delete _data[key];
 		});
+		// #Data0003: removeData时需要同时清除dom上所对应的属性
+		_this.removeAttr(key);
 	},
 	// 普通属性
 	attr: function(key, value){
@@ -61,7 +69,7 @@ var _Data = {
 		}
 		// getter
 		else{
-			return this.DOMList[0].getAttribute(key);
+			return this.DOMList[0].getAttribute(key) || undefined;
 		}
 	},
 	// 删除普通属性
@@ -88,8 +96,17 @@ var _Data = {
 		}
 		// getter
 		else{
-			return this.DOMList[0][key];
+			return this.DOMList[0][key] || undefined;
 		}
+	},
+	// 删除固有属性
+	removeProp: function(key) {
+		if (typeof key === 'undefined') {
+			return;
+		}
+		utilities.each(this.DOMList, function(i, v){
+			delete v[key];
+		});
 	},
 	// attr -> value
 	val: function (value) {

@@ -4,7 +4,7 @@ var _Css = require('../src/Css');
 var extend = require('../src/extend');
 var Sizzle = require('../src/Sizzle');
 
-describe('Offset', function() {
+describe('Css', function() {
 
 	var divEle = null;
 	var divEle2 = null;

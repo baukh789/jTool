@@ -8,6 +8,8 @@ var _Class = require('./Class');
 var _Document = require('./Document');
 var _Offset = require('./Offset');
 var _Element = require('./Element');
+var _Animate = require('./Animate');
+var _Data = require('./Data');
 
 // 如果需要集成Angular,React,在此处进行集成
 var jTool = function (selector, context){
@@ -28,6 +30,8 @@ jTool.prototype.extend(_Class);
 jTool.prototype.extend(_Document);
 jTool.prototype.extend(_Offset);
 jTool.prototype.extend(_Element);
+jTool.prototype.extend(_Animate);
+jTool.prototype.extend(_Data);
 
 window.jTool = jTool;
 

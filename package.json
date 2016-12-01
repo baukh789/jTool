@@ -3,7 +3,7 @@
   "version": "0.0.4",
   "description": "javascript轻量类库",
   "author": "拭目以待",
-  "respository": "https://github.com/baukh789/jTool",
+  "repository": "https://github.com/baukh789/jTool",
   "devDependencies": {
     "browserify": "^13.0.0",
     "codecov": "^1.0.1",
@@ -23,7 +23,6 @@
     "uglifyjs": "^2.4.10",
     "watchify": "^3.7.0"
   },
-  "repository": "",
   "license": "MIT",
   "scripts": {
     "report-coverage": "codecov",

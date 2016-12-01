@@ -9,6 +9,7 @@ describe('Element', function() {
 	var divEle = null;
 	var divEle2 = null;
 	var divEle3 = null;
+	var pEle1 = null;
 	var jTool = null;
 
 	beforeEach(function() {
@@ -34,12 +35,18 @@ describe('Element', function() {
 		divEle3 = document.createElement('div');
 		divEle3.id = 'div3';
 		document.body.appendChild(divEle3);
+
+		pEle1 = document.createElement('p');
+		pEle1.id = 'p1';
+		pEle1.innerHTML = '<span class="span1"></span><span class="span2"></span><span class="span3"></span>';
+		document.body.appendChild(pEle1);
 	});
 
 	afterEach(function() {
 		document.body.removeChild(divEle);
 		document.body.removeChild(divEle2);
 		document.body.removeChild(divEle3);
+		document.body.removeChild(pEle1);
 		divEle = null;
 		divEle2 = null;
 		divEle3 = null;
@@ -62,6 +69,13 @@ describe('Element', function() {
 		expect(jTool('body').find('#div1').DOMList[0].id).toBe('div1');
 		expect(jTool('body').find('#div2').DOMList[0].id).toBe('div2');
 		expect(jTool('body').find('#div11').DOMList).toBe(undefined);
+	});
+
+	it('index', function() {
+		expect(jTool('#p1 .span1').index()).toBe(0);
+		expect(jTool('#p1 .span2').index()).toBe(1);
+		expect(jTool('#p1 .span1').index(jTool('#p1 span'))).toBe(0);
+		expect(jTool('#p1 .span3').index(jTool('#p1 span'))).toBe(2);
 	});
 
 	it('getRowId', function() {

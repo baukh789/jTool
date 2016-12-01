@@ -14,7 +14,7 @@
  *            并未使用document.createEvent('HTMLEvents').initEvent(event, true, true).dispatchEvent()
  *            原因是initEvent已经被新的DOM标准废弃了。
  * #Event003: 如果存在子选择器,会对回调函数进行包装, 以达到在触发事件时所传参数为当前的window.event对象
- * --ex--
+ * --EX--
  * 在选择元素上绑定一个或多个事件的事件处理函数: .bind('click mousedown', function(){}) 或.on('click mousedown', function(){})
  * 在选择元素上为当前并不存在的子元素绑定事件处理函数: .on('click mousedown', '.test', function(){})
  * */

@@ -1,7 +1,6 @@
 /*
  * 属性 数据
  * */
-// TODO 测试
 var utilities = require('./utilities');
 
 var _Data = {
@@ -95,19 +94,6 @@ var _Data = {
 	// attr -> value
 	val: function (value) {
 		return this.attr('value', value) || '';
-	},
-	// 索引
-	index: function (nodeList) {
-		var node = this.DOMList[0];
-		// 查找范围参数为空时,找寻同层节点
-		if (!nodeList) {
-			nodeList = node.parentNode.childNodes;
-		}
-		// 查找范围参数为jTool对象,则使用对象的DOMList
-		else if (nodeList.jTool) {
-			nodeList = nodeList.DOMList;
-		}
-		return nodeList ? [].indexOf.call(nodeList, node) : -1;
 	}
 };
 

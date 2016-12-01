@@ -17,9 +17,7 @@ describe('Animate', function() {
 		Sizzle.prototype = jTool.prototype = {};
 
 		jTool.extend = jTool.prototype.extend = extend;
-
 		jTool.prototype.extend(_Animate);
-
 
 		divEle = document.createElement('div');
 		divEle.id = 'div1';
@@ -34,24 +32,7 @@ describe('Animate', function() {
 		jTool = null;
 	});
 
-
-	it('测试animate回调函数', function() {
-		var animateCallbackHandler = jasmine.createSpy('callback');
-		jTool('#div1').animate({height: '100px', width: '200px'}, 1000, animateCallbackHandler);
-		setTimeout(function(){
-			expect(animateCallbackHandler.calls.count()).toBe(1);
-		}, 1000);
-	});
-
-	it('测试animate无时间参数', function(){
-		var animateCallbackHandler = jasmine.createSpy('callback');
-		jTool('#div1').animate({height: '100px', width: '200px'}, animateCallbackHandler);
-		setTimeout(function(){
-			expect(animateCallbackHandler.calls.count()).toBe(1);
-		});
-	});
-
-	it('测试animate执行效果', function(){
+	it('animate', function(){
 		jTool('#div1').animate({height: '100px', width: '200px'}, 1000);
 		setTimeout(function(){
 			expect(divEle.style.height).toBe('100px');
@@ -59,12 +40,28 @@ describe('Animate', function() {
 		}, 1000);
 	});
 
-	it('测试show执行效果', function(){
+	it('animate回调函数', function() {
+		var animateCallbackHandler = jasmine.createSpy('callback');
+		jTool('#div1').animate({height: '100px', width: '200px'}, 1000, animateCallbackHandler);
+		setTimeout(function(){
+			expect(animateCallbackHandler.calls.count()).toBe(1);
+		}, 1000);
+	});
+
+	it('animate无时间参数', function(){
+		var animateCallbackHandler = jasmine.createSpy('callback');
+		jTool('#div1').animate({height: '100px', width: '200px'}, animateCallbackHandler);
+		setTimeout(function(){
+			expect(animateCallbackHandler.calls.count()).toBe(1);
+		});
+	});
+
+	it('show', function(){
 		jTool('#div1').show();
 		expect(divEle.style.display).toBe('block');
 	});
 
-	it('测试hide执行效果', function(){
+	it('hide', function(){
 		jTool('#div1').hide();
 		expect(divEle.style.display).toBe('none');
 	});

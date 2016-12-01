@@ -282,6 +282,20 @@ var _Element = {
 		return new Sizzle(selectText, this);
 	},
 
+	// 获取当前元素在指定元素中的索引, 当无参数时为当前同级元素中的索引
+	index: function (nodeList) {
+		var node = this.DOMList[0];
+		// 查找范围参数为空时,找寻同层节点
+		if (!nodeList) {
+			nodeList = node.parentNode.childNodes;
+		}
+		// 查找范围参数为jTool对象,则使用对象的DOMList
+		else if (nodeList.jTool) {
+			nodeList = nodeList.DOMList;
+		}
+		return nodeList ? [].indexOf.call(nodeList, node) : -1;
+	},
+
 	// 获取与 th 同列的 td jTool 对象, 该方法的调用者只允许为 Th
 	getRowTd: function() {
 		var th = this.eq(0);
@@ -323,7 +337,7 @@ module.exports = _Element;
  *            并未使用document.createEvent('HTMLEvents').initEvent(event, true, true).dispatchEvent()
  *            原因是initEvent已经被新的DOM标准废弃了。
  * #Event003: 如果存在子选择器,会对回调函数进行包装, 以达到在触发事件时所传参数为当前的window.event对象
- * --ex--
+ * --EX--
  * 在选择元素上绑定一个或多个事件的事件处理函数: .bind('click mousedown', function(){}) 或.on('click mousedown', function(){})
  * 在选择元素上为当前并不存在的子元素绑定事件处理函数: .on('click mousedown', '.test', function(){})
  * */

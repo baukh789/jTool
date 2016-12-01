@@ -3,7 +3,6 @@
  */
 window.$ = window.jTool
 
-/*
 // testScroll();
 function testScroll() {
 	console.log('scroll', $(window).scrollTop());
@@ -17,7 +16,7 @@ function testBindScroll() {
 		console.log(e)
 	});
 }
-//testAnimate();
+testAnimate();
 function testAnimate() {
 	$('#testAnimate').animate({height: '200px','margin-left': '500px'}, 10000, function(){
 		console.log('高度等于200px了');
@@ -29,7 +28,6 @@ function testAnimate() {
 		console.log('高度等于200px了');
 	});
 }
-*/
 
 //testOffset();
 function testOffset(){
@@ -88,7 +86,7 @@ function testSizzle(){
 	console.log($('.t1'));
 }
 // 测试ajax
-testAjax();
+//testAjax();
 function testAjax(){
 	$.ajax({
 		url: './test.json',

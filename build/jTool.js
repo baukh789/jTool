@@ -1,4 +1,98 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+/*
+ * 动画效果
+ * --动画中的参数对应--
+ * styleObj: 元素将要实现的样式, 只允许为Object格式
+ * time: 执行动画的间隔时间
+ * callback: 动画执行完成后的回调函数
+ * --Ex--
+ * 无回调参数: jTool('#div1').animate({height: '100px', width: '200px'}, 1000);
+ * 无时间参数: jTool('#div1').animate({height: '100px', width: '200px'}, callback);
+ * 完整参数: jTool('#div1').animate({height: '100px', width: '200px'}, 1000, callback);
+ * --注意事项--
+ * show与hide方法只是一个简单的实现,不支持参数及动画效果
+ * */
+var utilities = require('./utilities');
+var _Css = require('../src/Css');
+
+var _Animate = {
+	show: function() {
+		utilities.each(this.DOMList, function(i, v) {
+			if(v.style.oldDisplay && v.style.oldDisplay !== 'none'){
+				v.style.display = v.style.oldDisplay;
+			}
+			else{
+				v.style.display = 'block';
+			}
+		});
+		return this;
+	},
+	hide: function() {
+		utilities.each(this.DOMList, function(i, v){
+			v.style.oldDisplay = utilities.getStyle(v, 'display');
+			v.style.display = 'none';
+		});
+		return this;
+	},
+	// 动画效果, 动画样式仅支持以对象类型传入且值需要存在有效的单位
+	animate: function(styleObj, time, callback) {
+		var animateFromText = '',   // 动画执行前样式文本
+			animateToText = '',     // 动画执行后样式文本
+			node = this.DOMList[0];
+		// 无有效的参数, 直接跳出. 但并不返回错误.
+		if(!styleObj){
+			return;
+		}
+		// 参数转换
+		if(utilities.type(callback) === 'undefined' && utilities.type(time) === 'function'){
+			callback = time;
+			time = 0;
+		}
+		if(utilities.type(callback) === 'undefined'){
+			callback = utilities.noop;
+		}
+		if(utilities.type(time) === 'undefined'){
+			time = 0;
+		}
+		// 组装动画 keyframes
+		utilities.each(styleObj, function(key, v){
+			key = utilities.toHyphen(key);
+			animateFromText += key + ':' + utilities.getStyle(node, key) + ';';
+			animateToText += key + ':' + v + ';';
+		});
+		// 拼接动画样式文本
+		var animateText = '@keyframes jToolAnimate {' +
+			'from {' +
+			animateFromText +
+			'}' +
+			'to {' +
+			animateToText +
+			'}' +
+			'}';
+
+		// 引入动画样式至页面
+		var jToolAnimate = document.createElement('style');
+		jToolAnimate.className = 'jTool-animate-style';
+		jToolAnimate.type = 'text/css';
+		document.head.appendChild(jToolAnimate);
+		jToolAnimate.textContent = jToolAnimate.textContent + animateText;
+
+		// 启用动画
+		node.style.animation = 'jToolAnimate ' + time / 1000 + 's ease-in-out forwards';
+
+		// 延时执行回调函数及清理操作
+		window.setTimeout(function(){
+			_Css.css(styleObj);
+			node.style.animation = '';
+			jToolAnimate.remove();
+			callback();
+		}, time);
+	}
+};
+
+module.exports = _Animate;
+
+},{"../src/Css":3,"./utilities":13}],2:[function(require,module,exports){
 var utilities = require('./utilities');
 
 var _Class = {
@@ -41,7 +135,7 @@ var _Class = {
 
 module.exports = _Class;
 
-},{"./utilities":11}],2:[function(require,module,exports){
+},{"./utilities":13}],3:[function(require,module,exports){
 /*
  * CSS
  * */
@@ -106,7 +200,126 @@ var _CSS = {
 
 module.exports = _CSS;
 
-},{"./utilities":11}],3:[function(require,module,exports){
+},{"./utilities":13}],4:[function(require,module,exports){
+/*
+ * 属性 数据
+ * --注意事项--
+ * #Data0001: 存储值类型为字符或数字时使用setAttribute, Object则存储在dom.dataKey属性下
+ * #Data0002: 获取操作会优先获取dom.dataKey, 如果没有则通过获取getAttribute进行获取
+ * #Data0003: removeData时需要同时清除dom上所对应的属性,而removeAttr则不会清除通过data存储的数据
+ * #Data0004: get操作时, 如果无有效值,则返回undefined
+ * */
+var utilities = require('./utilities');
+
+var _Data = {
+	// data唯一识别码
+	dataKey: 'jTool' + utilities.version,
+	// 设置\获取对象类属性
+	data: function(key, value) {
+		var _this = this,
+			_data = {};
+		// 未指定参数,返回全部
+		if (typeof key === 'undefined' && typeof value === 'undefined') {
+			return _this.DOMList[0][_this.dataKey];
+		}
+		// setter
+		if (typeof(value) !== 'undefined') {
+			var _type = utilities.type(value);
+			// #Data0001: 存储值类型为字符或数字时, 使用attr执行
+			if (_type === 'string' || _type === 'number') {
+				_this.attr(key, value);
+			}
+			utilities.each(_this.DOMList, function(i, v) {
+				_data = v[_this.dataKey] || {};
+				_data[key] = value;
+				v[_this.dataKey] = _data;
+			});
+			return this;
+		}
+		// getter
+		else{
+			_data = _this.DOMList[0][_this.dataKey] || {};
+			//#Data0002: 获取操作会优先获取dom.dataKey, 如果没有则通过获取getAttribute进行获取
+			return _data[key] || _this.attr(key) || undefined;
+		}
+	},
+	// 删除对象类属性
+	removeData: function(key) {
+		var _this = this,
+			_data;
+		if(typeof key === 'undefined'){
+			return;
+		}
+		utilities.each(_this.DOMList, function(i, v){
+			_data = v[_this.dataKey] || {};
+			delete _data[key];
+		});
+		// #Data0003: removeData时需要同时清除dom上所对应的属性
+		_this.removeAttr(key);
+	},
+	// 普通属性
+	attr: function(key, value){
+		// 未指定参数,返回空字符
+		if (typeof key === 'undefined' && typeof value === 'undefined') {
+			return '';
+		}
+		// setter
+		if (typeof(value) !== 'undefined') {
+			utilities.each(this.DOMList, function(i, v) {
+				v.setAttribute(key, value);
+			});
+			return this;
+		}
+		// getter
+		else{
+			return this.DOMList[0].getAttribute(key) || undefined;
+		}
+	},
+	// 删除普通属性
+	removeAttr: function(key) {
+		if (typeof key === 'undefined') {
+			return;
+		}
+		utilities.each(this.DOMList, function(i, v){
+			v.removeAttribute(key);
+		});
+	},
+	// 配置固有属性
+	prop: function(key, value) {
+		// 未指定参数,返回空字符
+		if (typeof key === 'undefined' && typeof value === 'undefined') {
+			return '';
+		}
+		// setter
+		if (typeof(value) !== 'undefined') {
+			utilities.each(this.DOMList, function(i, v) {
+				v[key] = value;
+			});
+			return this;
+		}
+		// getter
+		else{
+			return this.DOMList[0][key] || undefined;
+		}
+	},
+	// 删除固有属性
+	removeProp: function(key) {
+		if (typeof key === 'undefined') {
+			return;
+		}
+		utilities.each(this.DOMList, function(i, v){
+			delete v[key];
+		});
+	},
+	// attr -> value
+	val: function (value) {
+		return this.attr('value', value) || '';
+	}
+};
+
+module.exports = _Data;
+
+},{"./utilities":13}],5:[function(require,module,exports){
 /*
  * 文档操作
  * */
@@ -262,7 +475,7 @@ var _Document = {
 
 module.exports = _Document;
 
-},{"./Sizzle":7,"./utilities":11}],4:[function(require,module,exports){
+},{"./Sizzle":9,"./utilities":13}],6:[function(require,module,exports){
 var utilities = require('./utilities');
 var Sizzle = require('./Sizzle');
 
@@ -320,7 +533,7 @@ var _Element = {
 
 module.exports = _Element;
 
-},{"./Sizzle":7,"./utilities":11}],5:[function(require,module,exports){
+},{"./Sizzle":9,"./utilities":13}],7:[function(require,module,exports){
 /*
  * Event 事件
  * --事件中的参数对应--
@@ -472,7 +685,7 @@ var _Event = {
 
 module.exports = _Event;
 
-},{"./utilities":11}],6:[function(require,module,exports){
+},{"./utilities":13}],8:[function(require,module,exports){
 /*
  * 位置
  * */
@@ -571,7 +784,7 @@ var Offset = {
 
 module.exports = Offset;
 
-},{"./utilities":11}],7:[function(require,module,exports){
+},{"./utilities":13}],9:[function(require,module,exports){
 /**
  * Created by baukh on 16/11/25.
  */
@@ -688,7 +901,7 @@ var Sizzle = function(selector, context) {
 
 module.exports = Sizzle;
 
-},{"./utilities":11}],8:[function(require,module,exports){
+},{"./utilities":13}],10:[function(require,module,exports){
 /*
  * ajax
  * type === GET: data格式 name=baukh&age=29
@@ -773,7 +986,7 @@ module.exports = {
 	post: post
 };
 
-},{"./extend":9,"./utilities":11}],9:[function(require,module,exports){
+},{"./extend":11,"./utilities":13}],11:[function(require,module,exports){
 // 可以使用 Object.assign() 方法完成该功能
 
 function extend() {
@@ -812,7 +1025,7 @@ function extend() {
 
 module.exports = extend;
 
-},{}],10:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 var Sizzle = require('./Sizzle');
 var Extend = require('./extend');
 var Utilities = require('./utilities');
@@ -823,6 +1036,8 @@ var _Class = require('./Class');
 var _Document = require('./Document');
 var _Offset = require('./Offset');
 var _Element = require('./Element');
+var _Animate = require('./Animate');
+var _Data = require('./Data');
 
 // 如果需要集成Angular,React,在此处进行集成
 var jTool = function (selector, context){
@@ -843,12 +1058,14 @@ jTool.prototype.extend(_Class);
 jTool.prototype.extend(_Document);
 jTool.prototype.extend(_Offset);
 jTool.prototype.extend(_Element);
+jTool.prototype.extend(_Animate);
+jTool.prototype.extend(_Data);
 
 window.jTool = jTool;
 
 module.exports = jTool;
 
-},{"./Class":1,"./Css":2,"./Document":3,"./Element":4,"./Event":5,"./Offset":6,"./Sizzle":7,"./ajax":8,"./extend":9,"./utilities":11}],11:[function(require,module,exports){
+},{"./Animate":1,"./Class":2,"./Css":3,"./Data":4,"./Document":5,"./Element":6,"./Event":7,"./Offset":8,"./Sizzle":9,"./ajax":10,"./extend":11,"./utilities":13}],13:[function(require,module,exports){
 var toString = Object.prototype.toString;
 
 var class2type = {
@@ -1029,4 +1246,4 @@ module.exports = {
 	version: '0.0.1'
 };
 
-},{}]},{},[10]);
+},{}]},{},[12]);

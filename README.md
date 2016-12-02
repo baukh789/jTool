@@ -25,3 +25,7 @@ npm install jTool
 jTool('#test').show();
 //如果需要使用$符号, 则在代码初始区域执行 var $ = jTool; 即可.
 ```
+
+### 关于 es6 webpack 版本 (开发中)
+
+https://github.com/hjzheng/jTool/tree/es6

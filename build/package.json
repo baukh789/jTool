@@ -3,7 +3,7 @@
   "version": "0.0.5",
   "description": "javascript轻量类库",
   "author": "拭目以待",
-  "respository": "https://github.com/baukh789/jTool",
+  "repository": "https://github.com/baukh789/jTool",
   "devDependencies": {
     "browserify": "^13.0.0",
     "jasmine-ajax": "^3.2.0",
@@ -21,7 +21,7 @@
     "uglifyjs": "^2.4.10",
     "watchify": "^3.7.0"
   },
-  "repository": "",
+  "main": "./jTool.js",
   "license": "MIT",
   "scripts": {
     "lint": "jshint src test",

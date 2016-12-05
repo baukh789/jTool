@@ -33,6 +33,6 @@ jTool.prototype.extend(_Element);
 jTool.prototype.extend(_Animate);
 jTool.prototype.extend(_Data);
 
-window.jTool = jTool;
+window.jTool = window.$ = jTool;
 
 module.exports = jTool;

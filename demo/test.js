@@ -17,15 +17,9 @@
 			console.log(e)
 		});
 	}
-	//testAnimate();
+	testAnimate();
 	function testAnimate() {
-		$('#testAnimate').animate({height: '200px','margin-left': '500px'}, 10000, function(){
-			console.log('高度等于200px了');
-		});
-		$('.t1').animate({height: '200px','margin-left': '500px'}, 3000, function(){
-			console.log('高度等于200px了');
-		});
-		$('.t2').animate({height: '200px','margin-left': '500px'}, 20000, function(){
+		$('#testAnimate').animate({height: '200px','margin-left': '500px'}, 3000, function(){
 			console.log('高度等于200px了');
 		});
 	}

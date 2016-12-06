@@ -35,9 +35,10 @@ var _Animate = {
 	},
 	// 动画效果, 动画样式仅支持以对象类型传入且值需要存在有效的单位
 	animate: function(styleObj, time, callback) {
+		var _this = this;
 		var animateFromText = '',   // 动画执行前样式文本
 			animateToText = '',     // 动画执行后样式文本
-			node = this.DOMList[0];
+			node = _this.DOMList[0];
 		// 无有效的参数, 直接跳出. 但并不返回错误.
 		if(!styleObj){
 			return;
@@ -60,14 +61,14 @@ var _Animate = {
 			animateToText += key + ':' + v + ';';
 		});
 		// 拼接动画样式文本
-		var animateText = '@keyframes jToolAnimate {' +
-			'from {' +
-			animateFromText +
-			'}' +
-			'to {' +
-			animateToText +
-			'}' +
-			'}';
+		var animateText = '@keyframes jToolAnimate {'
+			+ 'from {'
+			+ animateFromText
+			+ '}'
+			+ 'to {'
+			+ animateToText
+			+ '}'
+			+ '}';
 
 		// 引入动画样式至页面
 		var jToolAnimate = document.createElement('style');
@@ -81,7 +82,7 @@ var _Animate = {
 
 		// 延时执行回调函数及清理操作
 		window.setTimeout(function(){
-			_Css.css(styleObj);
+			_Css.css.call(_this, styleObj);
 			node.style.animation = '';
 			jToolAnimate.remove();
 			callback();

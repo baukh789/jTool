@@ -1,12 +1,16 @@
 {
   "name": "jTool",
-  "version": "0.1.3",
+  "version": "0.1.5",
   "description": "javascript轻量类库",
   "author": "拭目以待",
   "repository": {
     "type": "git",
-    "url": "https://github.com/baukh789/jTool"
+    "url": "git+https://github.com/baukh789/jTool"
   },
+  "bugs": {
+    "url": "https://github.com/baukh789/jTool/issues"
+  },
+  "homepage": "https://github.com/baukh789/jTool#readme",
   "devDependencies": {
     "browserify": "^13.0.0",
     "codecov": "^1.0.1",

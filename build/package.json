@@ -5,7 +5,7 @@
   "author": "拭目以待",
   "repository": {
     "type": "git",
-    "url": "baukh789/jTool"
+    "url": "https://github.com/baukh789/jTool"
   },
   "devDependencies": {
     "browserify": "^13.0.0",

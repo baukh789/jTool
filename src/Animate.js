@@ -61,14 +61,14 @@ var _Animate = {
 			animateToText += key + ':' + v + ';';
 		});
 		// 拼接动画样式文本
-		var animateText = '@keyframes jToolAnimate {'
-			+ 'from {'
-			+ animateFromText
-			+ '}'
-			+ 'to {'
-			+ animateToText
-			+ '}'
-			+ '}';
+		var animateText = '@keyframes jToolAnimate {' +
+			'from {' +
+			animateFromText +
+			'}' +
+			'to {' +
+			animateToText +
+			'}' +
+			'}';
 
 		// 引入动画样式至页面
 		var jToolAnimate = document.createElement('style');

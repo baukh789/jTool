@@ -38,5 +38,17 @@
     "build:dev": "browserify src/index.js > build/jTool.js",
     "build:minified": "browserify src/index.js | uglifyjs -mc > build/jTool.min.js",
     "build": "npm run build:dev && npm run build:minified && cp package.json build/package.json && cp README.md build/README.md"
+  },
+  "eslintConfig": {
+    "rules": {
+      "class-methods-use-this": "off",
+      "angular/module-getter": "off",
+      "no-unused-expressions": "off",
+      "no-param-reassign": "off",
+      "angular/no-private-call": "off",
+      "no-console": "off",
+      "no-process-env": "off",
+      "angular/log": "off"
+    }
   }
 }

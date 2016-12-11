@@ -62,14 +62,14 @@ var _Animate = {
 			animateToText += key + ':' + v + ';';
 		});
 		// 拼接动画样式文本
-		var animateText = '@keyframes jToolAnimate {'
-			+ 'from {'
-			+ animateFromText
-			+ '}'
-			+ 'to {'
-			+ animateToText
-			+ '}'
-			+ '}';
+		var animateText = '@keyframes jToolAnimate {' +
+			'from {' +
+			animateFromText +
+			'}' +
+			'to {' +
+			animateToText +
+			'}' +
+			'}';
 
 		// 引入动画样式至页面
 		var jToolAnimate = document.createElement('style');
@@ -936,11 +936,17 @@ function ajax(options) {
 	}
 
 	var xhr = new XMLHttpRequest();
-
-	if (options.type === 'POST' && utilities.type(options.data) === 'object') {
-		options.data = JSON.stringify(options.data);
-	} else if(options.type === 'GET' && utilities.type(options.data) === 'string') {
-		options.url = options.url + (options.url.indexOf('?') === -1 ?  '?' : '&') + options.data;
+	var formData = new FormData();
+	if (utilities.type(options.data) === 'object') {
+		utilities.each(options.data, function (key, value) {
+			formData.append(key, value);
+		});
+	}else {
+		formData = options.data;
+	}
+	if(options.type === 'GET' && formData) {
+		options.url = options.url + (options.url.indexOf('?') === -1 ?  '?' : '&') + formData;
+		formData = null;
 	}
 
 	xhr.open(options.type, options.url, options.async);
@@ -974,7 +980,7 @@ function ajax(options) {
 		}
 	};
 
-	xhr.send(options.data);
+	xhr.send(formData);
 }
 
 function post(url, data, callback) {

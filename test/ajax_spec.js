@@ -79,7 +79,7 @@ describe('ajax', function() {
 
 			expect(request.url).toBe('/some/url');
 			expect(request.method).toBe('POST');
-			expect(request.params).toEqual(JSON.stringify({ name: 'hjzheng', job: 'niubi' }));
+			expect(request.params).toEqual('name=hjzheng&job=niubi');
 			expect(success).not.toHaveBeenCalled();
 
 			jasmine.Ajax.requests.mostRecent().respondWith({
@@ -197,20 +197,19 @@ describe('post', function() {
 	});
 
 	it('测试请求返回 JSON 数据', function() {
-		ajax.post('/some/url', {'test': 1}, success);
+		ajax.post('/some/url', {'test': 1, 'name': 'baukh'}, success);
 
 		var request = jasmine.Ajax.requests.mostRecent();
 
 		expect(request.url).toBe('/some/url');
 		expect(request.method).toBe('POST');
-		expect(request.params).toEqual(JSON.stringify({'test': 1}));
+		expect(request.params).toEqual('test=1&name=baukh');
 
 		jasmine.Ajax.requests.mostRecent().respondWith({
 			'status': 200,
 			'contentType': 'application/json; charset=UTF-8',
 			'responseText': {'test': 1}
 		});
-
 		expect(success).toHaveBeenCalledWith({'test': 1}, 200);
 	});
 });

@@ -32,11 +32,20 @@ function ajax(options) {
 	}
 
 	var xhr = new XMLHttpRequest();
-
-	if (options.type === 'POST' && utilities.type(options.data) === 'object') {
-		options.data = JSON.stringify(options.data);
-	} else if(options.type === 'GET' && utilities.type(options.data) === 'string') {
-		options.url = options.url + (options.url.indexOf('?') === -1 ?  '?' : '&') + options.data;
+	var formData = '';
+	if (utilities.type(options.data) === 'object') {
+		utilities.each(options.data, function (key, value) {
+			if(formData !== '') {
+				formData += '&';
+			}
+			formData += key + '=' + value;
+		});
+	}else {
+		formData = options.data;
+	}
+	if(options.type === 'GET' && formData) {
+		options.url = options.url + (options.url.indexOf('?') === -1 ?  '?' : '&') + formData;
+		formData = null;
 	}
 
 	xhr.open(options.type, options.url, options.async);
@@ -70,7 +79,7 @@ function ajax(options) {
 		}
 	};
 
-	xhr.send(options.data);
+	xhr.send(formData);
 }
 
 function post(url, data, callback) {

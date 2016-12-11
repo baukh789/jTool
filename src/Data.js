@@ -110,7 +110,7 @@ var _Data = {
 	},
 	// attr -> value
 	val: function (value) {
-		return this.attr('value', value) || '';
+		return this.prop('value', value) || '';
 	}
 };
 

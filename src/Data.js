@@ -37,7 +37,7 @@ var _Data = {
 		else{
 			_data = _this.DOMList[0][_this.dataKey] || {};
 			//#Data0002: 获取操作会优先获取dom.dataKey, 如果没有则通过获取getAttribute进行获取
-			return _data[key] || _this.attr(key) || undefined;
+			return this.transformValue(_data[key] || _this.attr(key));
 		}
 	},
 	// 删除对象类属性
@@ -69,7 +69,7 @@ var _Data = {
 		}
 		// getter
 		else{
-			return this.DOMList[0].getAttribute(key) || undefined;
+			return this.transformValue(this.DOMList[0].getAttribute(key));
 		}
 	},
 	// 删除普通属性
@@ -96,7 +96,7 @@ var _Data = {
 		}
 		// getter
 		else{
-			return this.DOMList[0][key] || undefined;
+			return this.transformValue(this.DOMList[0][key]);
 		}
 	},
 	// 删除固有属性
@@ -111,6 +111,14 @@ var _Data = {
 	// attr -> value
 	val: function (value) {
 		return this.prop('value', value) || '';
+	},
+	// 值转换
+	transformValue: function (value) {
+		// null => undefined
+		if($.type(value) === 'null') {
+			value = undefined;
+		}
+		return value
 	}
 };
 

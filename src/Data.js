@@ -115,7 +115,7 @@ var _Data = {
 	// 值转换
 	transformValue: function (value) {
 		// null => undefined
-		if($.type(value) === 'null') {
+		if(utilities.type(value) === 'null') {
 			value = undefined;
 		}
 		return value

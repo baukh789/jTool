@@ -1,9 +1,7 @@
 /**
  * jTool test
  */
-(function () {
-	window.$ = window.jTool;
-
+(function ($) {
 	// testScroll();
 	function testScroll() {
 		console.log('scroll', $(window).scrollTop());
@@ -151,4 +149,4 @@
 		$('div').prepend('<font style="color:red;">hello world</font>');
 	}
 
-})();
+})(jTool);

@@ -77,8 +77,4 @@ describe('Element', function() {
 		expect(jTool('#p1 .span1').index(jTool('#p1 span'))).toBe(0);
 		expect(jTool('#p1 .span3').index(jTool('#p1 span'))).toBe(2);
 	});
-
-	it('getRowId', function() {
-		// TODO
-	});
 });

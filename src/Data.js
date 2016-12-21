@@ -118,7 +118,7 @@ var _Data = {
 		if(utilities.type(value) === 'null') {
 			value = undefined;
 		}
-		return value
+		return value;
 	}
 };
 

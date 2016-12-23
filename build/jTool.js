@@ -321,7 +321,7 @@ var _Data = {
 		if(utilities.type(value) === 'null') {
 			value = undefined;
 		}
-		return value
+		return value;
 	}
 };
 
@@ -695,6 +695,7 @@ var Offset = {
 
 		// 递归获取 offset, 可以考虑使用 getBoundingClientRect
 		function getOffset(node, init) {
+			// 非Element 终止递归
 			if (node.nodeType !== 1) {
 				return;
 			}
@@ -705,10 +706,10 @@ var Offset = {
 				getOffset(node.parentNode);
 				return;
 			}
+			offest.top = node.offsetTop + offest.top - node.scrollTop;
+			offest.left = node.offsetLeft + offest.left - node.scrollLeft;
 
-			offest.top = node.offsetTop + offest.top;
-			offest.left = node.offsetLeft + offest.left;
-			// position = fixed
+			// position = fixed: 获取值后退出递归
 			if (_position === 'fixed') {
 				return;
 			}

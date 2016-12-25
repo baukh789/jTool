@@ -48,7 +48,6 @@ var _Animate = {
 					_display = 'block';
 					break;
 			}
-			console.log(v.nodeName);
 			v.style.display = _display;
 		});
 		return this;

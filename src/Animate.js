@@ -17,18 +17,44 @@ var _Css = require('../src/Css');
 var _Animate = {
 	show: function() {
 		utilities.each(this.DOMList, function(i, v) {
-			if(v.style.oldDisplay && v.style.oldDisplay !== 'none'){
-				v.style.display = v.style.oldDisplay;
+			var _display = '';
+			var inlineArray = ['SPAN', 'A', 'FONT', 'I'];
+			// inline
+			if(v.nodeName.indexOf(inlineArray) !== -1) {
+				v.style.display = 'inline-block';
+				return this;
 			}
-			else{
-				v.style.display = 'block';
+			// table or block
+			switch (v.nodeName){
+				case 'TABLE':
+					_display = 'table';
+					break;
+				case 'THEAD':
+					_display = 'table-header-group';
+					break;
+				case 'TBODY':
+					_display = 'table-row-group';
+					break;
+				case 'TR':
+					_display = 'table-row';
+					break;
+				case 'TH':
+					_display = 'table-cell';
+					break;
+				case 'TD':
+					_display = 'table-cell';
+					break;
+				default:
+					_display = 'block';
+					break;
 			}
+			console.log(v.nodeName);
+			v.style.display = _display;
 		});
 		return this;
 	},
 	hide: function() {
 		utilities.each(this.DOMList, function(i, v){
-			v.style.oldDisplay = utilities.getStyle(v, 'display');
 			v.style.display = 'none';
 		});
 		return this;

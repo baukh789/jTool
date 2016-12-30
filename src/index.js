@@ -33,6 +33,11 @@ jTool.prototype.extend(_Element);
 jTool.prototype.extend(_Animate);
 jTool.prototype.extend(_Data);
 
+// 兼容如jQuery类库的$占用问题
+if(typeof(window.$) !== 'undefined') {
+	window._$ = $;
+}
+// 抛出全局变量jTool  $
 window.jTool = window.$ = jTool;
 
 module.exports = jTool;

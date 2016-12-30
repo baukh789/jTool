@@ -1,4 +1,3 @@
-var utilities = require('./utilities');
 var Sizzle = require('./Sizzle');
 
 var _Element = {

@@ -49,7 +49,6 @@ var _Animate = {
 					_display = 'block';
 					break;
 			}
-			console.log(v.nodeName);
 			v.style.display = _display;
 		});
 		return this;
@@ -510,7 +509,6 @@ var _Document = {
 module.exports = _Document;
 
 },{"./Sizzle":9,"./utilities":13}],6:[function(require,module,exports){
-var utilities = require('./utilities');
 var Sizzle = require('./Sizzle');
 
 var _Element = {
@@ -546,7 +544,7 @@ var _Element = {
 
 module.exports = _Element;
 
-},{"./Sizzle":9,"./utilities":13}],7:[function(require,module,exports){
+},{"./Sizzle":9}],7:[function(require,module,exports){
 /*
  * Event 事件
  * --事件中的参数对应--
@@ -1084,6 +1082,11 @@ jTool.prototype.extend(_Element);
 jTool.prototype.extend(_Animate);
 jTool.prototype.extend(_Data);
 
+// 兼容如jQuery类库的$占用问题
+if(typeof(window.$) !== 'undefined') {
+	window._$ = $;
+}
+// 抛出全局变量jTool  $
 window.jTool = window.$ = jTool;
 
 module.exports = jTool;

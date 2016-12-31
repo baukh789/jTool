@@ -9,7 +9,7 @@ var _CSS = {
 	// TODO 颜色处理 返回16进制颜色值, 考虑 rgba 的情况
 	css: function(key, value) {
 		var _this = this;
-		var pxList = ['width', 'height', 'top', 'left', 'right', 'bottom',
+		var pxList = ['width', 'height', 'min-width', 'max-width', 'min-height', 'min-height', 'top', 'left', 'right', 'bottom',
 			'padding-top', 'padding-right', 'padding-bottom', 'padding-left',
 			'margin-top', 'margin-right', 'margin-bottom', 'margin-left',
 			'border-width', 'border-top-width', 'border-left-width', 'border-right-width', 'border-bottom-width'];

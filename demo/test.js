@@ -2,6 +2,46 @@
  * jTool test
  */
 (function ($) {
+	// testExtend
+	testExtend();
+	function testExtend() {
+		var o1 = {
+			name: 'baukh',
+			age: '29',
+			likes: {
+				work: 'o1-javascript',
+				life: {
+					one : 'o1-hehehe',
+					two: 'o1-hahaha',
+					three: {
+						a: 'o1-1',
+						b: 'o1-2',
+						c: 'o1-3'
+					},
+					four: 'is four'
+				}
+			}
+		};
+		var o2 = {
+			name: 'baukh',
+			age: '30',
+			likes: {
+				work: 'o2-javascript java',
+				life: {
+					one : 'o2-one',
+					two: 'o2-two',
+					three: {
+						a: 'o2-one',
+						b: 'o2-two',
+						c: 'o2-three'
+					}
+				}
+			}
+		};
+		console.log('========');
+		$.extend(true, o1, o2);
+		console.log(o1);
+	}
 	// testScroll();
 	function testScroll() {
 		console.log('scroll', $(window).scrollTop());

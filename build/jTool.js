@@ -1010,6 +1010,7 @@ module.exports = {
 },{"./extend":11,"./utilities":13}],11:[function(require,module,exports){
 // 可以使用 Object.assign() 方法完成该功能
 
+var utilities = require('./utilities');
 function extend() {
 	// 参数为空,返回空对象
 	if (arguments.length === 0) {
@@ -1022,22 +1023,34 @@ function extend() {
 		options;
 
 	// 如果参数只有一个, 将认为是对jTool进行扩展
-	if (arguments.length === 1) {
+	if (arguments.length === 1 && typeof(arguments[0]) === 'object') {
 		target = this;
 		i = 0;
 	}
-
-	// 暂不支持 递归
-	if(typeof(target) === 'boolean') {
-		// deep = target;
+	if (arguments.length === 2 && typeof(arguments[0]) === 'boolean') {
+		deep = arguments[0];
+		target = this;
+		i = 1;
+	}
+	// 递归
+	if(typeof(arguments[0]) === 'boolean' && arguments.length > 2) {
+		deep = arguments[0];
 		target = arguments[1] || {};
+		i = 2;
 	}
 
 	for (; i < arguments.length; i++) {
 		options = arguments[i] || {};
+		ex(options, target);
+	}
+	function ex(options, target) {
 		for (var p in options) {
 			if (options.hasOwnProperty(p)) {
-				target[p] = options[p];
+				if(deep && utilities.type(options[p]) === 'object'){
+					ex(options[p], target[p]);
+				}else{
+					target[p] = options[p];
+				}
 			}
 		}
 	}
@@ -1046,7 +1059,7 @@ function extend() {
 
 module.exports = extend;
 
-},{}],12:[function(require,module,exports){
+},{"./utilities":13}],12:[function(require,module,exports){
 var Sizzle = require('./Sizzle');
 var Extend = require('./extend');
 var Utilities = require('./utilities');

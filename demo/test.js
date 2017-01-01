@@ -38,9 +38,8 @@
 				}
 			}
 		};
-		console.log('========');
-		$.extend(true, o1, o2);
-		console.log(o1);
+		var o3 = $.extend(true, {}, o1, o2);
+		console.log(o3);
 	}
 	// testScroll();
 	function testScroll() {

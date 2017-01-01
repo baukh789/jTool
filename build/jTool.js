@@ -1022,34 +1022,34 @@ function extend() {
 		target = arguments[0],
 		options;
 
-	// 如果参数只有一个, 将认为是对jTool进行扩展
+	// 参数只有一个且为对象类形 -> 对jTool进行扩展
 	if (arguments.length === 1 && typeof(arguments[0]) === 'object') {
 		target = this;
 		i = 0;
 	}
-	if (arguments.length === 2 && typeof(arguments[0]) === 'boolean') {
+	// 参数为两个, 且第一个为布尔值 -> 对jTool进行扩展
+	else if (arguments.length === 2 && typeof(arguments[0]) === 'boolean') {
 		deep = arguments[0];
 		target = this;
 		i = 1;
 	}
-	// 递归
-	if(typeof(arguments[0]) === 'boolean' && arguments.length > 2) {
+	// 参数长度大于2, 且第一个为布尔值 -> 对第二个Object进行扩展
+	else if(arguments.length > 2 && typeof(arguments[0]) === 'boolean') {
 		deep = arguments[0];
 		target = arguments[1] || {};
 		i = 2;
 	}
-
 	for (; i < arguments.length; i++) {
 		options = arguments[i] || {};
 		ex(options, target);
 	}
 	function ex(options, target) {
-		for (var p in options) {
-			if (options.hasOwnProperty(p)) {
-				if(deep && utilities.type(options[p]) === 'object'){
-					ex(options[p], target[p]);
+		for (var key in options) {
+			if (options.hasOwnProperty(key)) {
+				if(deep && utilities.type(options[key]) === 'object' && utilities.type(target[key]) === 'object'){
+					ex(options[key], target[key]);
 				}else{
-					target[p] = options[p];
+					target[key] = options[key];
 				}
 			}
 		}

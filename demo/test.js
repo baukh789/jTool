@@ -3,7 +3,7 @@
  */
 (function ($) {
 	// testExtend
-	testExtend();
+	// testExtend();
 	function testExtend() {
 		var o1 = {
 			name: 'baukh',
@@ -54,7 +54,7 @@
 			console.log(e)
 		});
 	}
-	testAnimate();
+	// testAnimate();
 	function testAnimate() {
 		$('#testAnimate').animate({height: '200px','margin-left': '500px'}, 3000, function(){
 			console.log('高度等于200px了');
@@ -66,7 +66,7 @@
 		console.log($('.tt3').offset());
 	}
 	// 测试wrap and closest
-	//testDOM();
+	testDOM();
 	function testDOM(){
 		var t1 = $('.t1');
 		t1.wrap('<div class="wrap"><div class="table-div"></div></div>');
@@ -89,7 +89,7 @@
 		});
 	}
 	// 测试on
-	testOn();
+	// testOn();
 	function testOn(){
 		/*
 		 $('.t1').off('mousedown');

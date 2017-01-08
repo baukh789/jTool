@@ -89,7 +89,9 @@ var Sizzle = function(selector, context) {
 			utilities.each(context, function (i, v) {
 				// NodeList 只是类数组, 直接使用 concat 并不会将两个数组中的参数边接, 而是会直接将 NodeList 做为一个参数合并成为二维数组
 				utilities.each(v.querySelectorAll(selector), function (i2, v2) {
-					DOMList.push(v2);
+					if(!v2){
+						DOMList.push(v2);
+					}
 				});
 			});
 		}

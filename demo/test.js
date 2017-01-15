@@ -66,7 +66,7 @@
 		console.log($('.tt3').offset());
 	}
 	// 测试wrap and closest
-	testDOM();
+	// testDOM();
 	function testDOM(){
 		var t1 = $('.t1');
 		t1.wrap('<div class="wrap"><div class="table-div"></div></div>');
@@ -131,26 +131,27 @@
 		console.log($('.t1'));
 	}
 	// 测试ajax
+	testAjax();
 	function testAjax(){
 		$.ajax({
-			url: 'data/test.json',
+			url: 'http://127.0.0.1:1314/learnLinkManager/getLearnLinkList',
 			data: {
 				name: 1,
 				c:2
 			},
-			headers: {a:1,b:2,c:3},
-			type: 'GET',
+			headers: {'header-test': 'baukh'},
+			type: 'POST',
 			beforeSend: function(xhr){
-				console.log(xhr)
+				// console.log(xhr)
 			},
 			complete: function (xhr, status) {
-				console.log('complete', xhr, status)
+				// console.log('complete', xhr, status)
 			},
 			success : function (data, status) {
-				console.log('success',data, status)
+				// console.log('success',data, status)
 			},
 			error: function (xhr, status, statusText) {
-				console.log('error', xhr, status, statusText)
+				// console.log('error', xhr, status, statusText)
 			}
 		});
 	}

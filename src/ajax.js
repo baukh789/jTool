@@ -11,20 +11,17 @@ var utilities = require('./utilities');
 function ajax(options) {
 
 	var defaults = {
-		url: null,
-		type: 'GET',
-		data: null,
-		headers: {},
-		async: true,
-		beforeSend: utilities.noop,
-		complete: utilities.noop,
-		success: utilities.noop,
-		error: utilities.noop
+		url: null,		// 请求地址
+		type: 'GET',	// 请求类形
+		data: null,		// 传递数据
+		headers: {},	// 请求头信息
+		async: true,	// 是否异步执行
+		beforeSend: utilities.noop,	// 请求发送前执行事件
+		complete: utilities.noop,	// 请求发送后执行事件
+		success: utilities.noop,	// 请求成功后执行事件
+		error: utilities.noop		// 请求失败后执行事件
 	};
-
-
 	options = extend(defaults, options);
-
 
 	if (!options.url) {
 		utilities.error('jTool ajax: url不能为空');
@@ -54,6 +51,7 @@ function ajax(options) {
 		xhr.setRequestHeader(key, options.headers[key]);
 	}
 
+	// xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
 	// 执行发送前事件
 	options.beforeSend(xhr);
 
@@ -63,9 +61,9 @@ function ajax(options) {
 		options.complete(xhr, xhr.status);
 	};
 
-	// 监听onreadystatechange并执行成功后失败事件
+	// 监听onreadystatechange并执行成功\失败事件
+		console.log('ajax')
 	xhr.onreadystatechange = function() {
-
 		if (xhr.readyState !== 4) {
 			return;
 		}
@@ -78,8 +76,8 @@ function ajax(options) {
 			options.error(xhr, xhr.status, xhr.statusText);
 		}
 	};
-
 	xhr.send(formData);
+
 }
 
 function post(url, data, callback) {

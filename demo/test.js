@@ -134,7 +134,7 @@
 	testAjax();
 	function testAjax(){
 		$.ajax({
-			url: 'http://127.0.0.1:1314/learnLinkManager/getLearnLinkList',
+			url: 'http://www.lovejavascript.com/learnLinkManager/getLearnLinkList',
 			data: {
 				name: 1,
 				c:2

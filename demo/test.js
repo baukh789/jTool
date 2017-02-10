@@ -134,12 +134,11 @@
 	testAjax();
 	function testAjax(){
 		$.ajax({
-			url: 'http://www.lovejavascript.com/learnLinkManager/getLearnLinkList',
+			url: 'http://127.0.0.1:1314/learnLinkManager/getLearnLinkList',
 			data: {
 				name: 1,
 				c:2
 			},
-			headers: {'header-test': 'baukh'},
 			type: 'POST',
 			beforeSend: function(xhr){
 				// console.log(xhr)

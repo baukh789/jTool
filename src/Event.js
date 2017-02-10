@@ -10,9 +10,12 @@
  * #Event001: 预绑定的事件,无法通过new Event().dispatchEvent()来执行,所以通过属性调用的方式来触发.
  *            存在父级的元素不会是window 或document 所以不会存在问题.
  *            目前只有click事件可以通过trigger进行调用, 需要修改.(但是通过真实的事件触发,是不会有问题的)
- * #Event002: 当前使用的是new Event().dispatchEvent();
- *            并未使用document.createEvent('HTMLEvents').initEvent(event, true, true).dispatchEvent()
- *            原因是initEvent已经被新的DOM标准废弃了。
+ * #Event002: 当前使用的是var myEvent = new Event('click'); element.dispatchEvent(myEvent);
+ *            并未使用var myEvent = document.createEvent('HTMLEvents').initEvent(event, true, true); element.dispatchEvent(myEvent);
+ *            原因:
+ *            1.createEvent已从Web标准中删除 来源地址:[https://developer.mozilla.org/en-US/docs/Web/API/Document/createEvent]
+ *            2.initEvent已从Web标准中删除 来源地址:[https://developer.mozilla.org/en-US/docs/Web/API/Event/initEvent]
+ *
  * #Event003: 如果存在子选择器,会对回调函数进行包装, 以达到在触发事件时所传参数为当前的window.event对象
  * --EX--
  * 在选择元素上绑定一个或多个事件的事件处理函数: .bind('click mousedown', function(){}) 或.on('click mousedown', function(){})

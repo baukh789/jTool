@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jquery 比较</title>
+	<script src="jquery-3.1.1.js"></script>
+</head>
+<body>
+<button onclick="test()">test</button>
+<script>
+function  test() {
+	$.ajax({
+		url: 'http://127.0.0.1:1314/learnLinkManager/getLearnLinkList',
+		data: {
+			name: 1,
+			c:2
+		},
+		headers: {'header-test': 'baukh'},
+		type: 'POST',
+		beforeSend: function(xhr){
+			// console.log(xhr)
+		},
+		complete: function (xhr, status) {
+			// console.log('complete', xhr, status)
+		},
+		success : function (data, status) {
+			// console.log('success',data, status)
+		},
+		error: function (xhr, status, statusText) {
+			// console.log('error', xhr, status, statusText)
+		}
+	});
+}
+
+
+</script>
+</body>
+</html>

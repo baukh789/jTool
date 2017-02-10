@@ -62,7 +62,6 @@ function ajax(options) {
 	};
 
 	// 监听onreadystatechange并执行成功\失败事件
-		console.log('ajax')
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState !== 4) {
 			return;

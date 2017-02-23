@@ -213,3 +213,35 @@ describe('post', function() {
 		expect(success).toHaveBeenCalledWith({'test': 1}, 200);
 	});
 });
+
+describe('get', function() {
+
+	var success = null;
+
+	beforeEach(function() {
+		jasmine.Ajax.install();
+		success = jasmine.createSpy('success');
+	});
+
+	afterEach(function() {
+		jasmine.Ajax.uninstall();
+		success = null;
+	});
+
+	it('测试请求返回 JSON 数据', function() {
+		ajax.get('/some/url', {'test': 1, 'name': 'baukh'}, success);
+
+		var request = jasmine.Ajax.requests.mostRecent();
+
+		expect(request.url).toBe('/some/url?test=1&name=baukh');
+		expect(request.method).toBe('GET');
+		expect(request.params).toBe(null);
+
+		jasmine.Ajax.requests.mostRecent().respondWith({
+			'status': 200,
+			'contentType': 'application/json; charset=UTF-8',
+			'responseText': {'test': 1}
+		});
+		expect(success).toHaveBeenCalledWith({'test': 1}, 200);
+	});
+});

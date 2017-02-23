@@ -933,7 +933,7 @@ function ajax(options) {
 
 	var defaults = {
 		url: null,		// 请求地址
-		type: 'GET',	// 请求类形
+		type: 'GET',	// 请求类型
 		data: null,		// 传递数据
 		headers: {},	// 请求头信息
 		async: true,	// 是否异步执行
@@ -1004,9 +1004,15 @@ function post(url, data, callback) {
 	ajax({ url: url, type: 'POST', data: data, success: callback });
 }
 
+function get(url, data, callback) {
+	ajax({ url: url, type: 'GET', data: data, success: callback });
+}
+
+
 module.exports = {
 	ajax: ajax,
-	post: post
+	post: post,
+	get: get
 };
 
 },{"./extend":11,"./utilities":13}],11:[function(require,module,exports){

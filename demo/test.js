@@ -131,10 +131,10 @@
 		console.log($('.t1'));
 	}
 	// 测试ajax
-	testAjax();
+	//testAjax();
 	function testAjax(){
 		$.ajax({
-			url: 'http://127.0.0.1:1314/learnLinkManager/getLearnLinkList',
+			url: 'http://www.lovejavascript.com/learnLinkManager/getLearnLinkList',
 			data: {
 				name: 1,
 				c:2
@@ -155,13 +155,22 @@
 		});
 	}
 	// 测试post请求
+	testPost();
 	function testPost(){
-		$.post('data/test.json', {a:1,b:2,ccc:22234}, function(data, status){
+		$.post('http://www.lovejavascript.com/learnLinkManager/getLearnLinkList', {a:1,b:2,ccc:22234}, function(data, status){
 			console.log(data);
 			console.log(status);
 		});
 	}
 
+	// 测试get请求
+	testGet();
+	function testGet(){
+		$.get('test.json', {a:1,b:2,ccc:22234}, function(data, status){
+			console.log(data);
+			console.log(status);
+		});
+	}
 	// 测试html
 	// testHtml();
 	function testHtml(){

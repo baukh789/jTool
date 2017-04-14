@@ -11,7 +11,7 @@ describe('extend', function() {
 			prop: 0,
 			prop1: 1,
 			fun1: function() {
-				
+
 			}
 		};
 
@@ -68,6 +68,15 @@ describe('extend', function() {
 	it('extend 可枚举的属性和方法', function() {
 		expect(extend(obj1, obj5)).toEqual({prop: 'enumerable', prop1: 1, fun1: obj1.fun1});
 	});
+
+	it('extend 可枚举的属性和方法2', function() {
+		var o = {name:'baukh', love:{a:1,b:2}};
+		var o2 = extend(true, {}, o);
+		o2.love.a = 2;
+		expect(o.love.a).toBe(1);
+		expect(o2.love.a).toBe(2);
+	});
+
 
 	it('对 JTool 对象进行扩展', function() {
 		var JTool = {};

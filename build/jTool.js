@@ -1054,7 +1054,10 @@ function extend() {
 	function ex(options, target) {
 		for (var key in options) {
 			if (options.hasOwnProperty(key)) {
-				if(deep && utilities.type(options[key]) === 'object' && utilities.type(target[key]) === 'object'){
+				if(deep && utilities.type(options[key]) === 'object'){
+					if(utilities.type(target[key]) !== 'object'){
+						target[key] = {};
+					}
 					ex(options[key], target[key]);
 				}else{
 					target[key] = options[key];
@@ -1290,7 +1293,7 @@ module.exports = {
 	error: error,
 	each: each,
 	createDOM: createDOM,
-	version: '1.1.0'
+	version: '1.2.16'
 };
 
 },{}]},{},[12]);

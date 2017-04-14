@@ -36,7 +36,10 @@ function extend() {
 	function ex(options, target) {
 		for (var key in options) {
 			if (options.hasOwnProperty(key)) {
-				if(deep && utilities.type(options[key]) === 'object' && utilities.type(target[key]) === 'object'){
+				if(deep && utilities.type(options[key]) === 'object'){
+					if(utilities.type(target[key]) !== 'object'){
+						target[key] = {};
+					}
 					ex(options[key], target[key]);
 				}else{
 					target[key] = options[key];

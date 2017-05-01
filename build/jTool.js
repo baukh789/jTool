@@ -595,8 +595,12 @@ var _Event = {
 					var myEvent = new Event(event); // #Event002: 创建一个事件对象，用于模拟trigger效果
 					element.dispatchEvent(myEvent);
 				}
-				// trigger的事件是预绑定在父级或以上级DOM上的
-				else {
+				// 当前为预绑定: 非click
+				else if (event !== 'click'){
+					console.warn('预绑定的事件只有click事件可以通过trigger进行调用');
+				}
+				// 当前为预绑定: click事件, 该事件为浏览器特性
+				else if (event === 'click'){
 					element[event]();
 				}
 			} catch(e) {
@@ -625,13 +629,19 @@ var _Event = {
 			querySelector = '';
 		}
 		// #Event003 存在子选择器 -> 包装回调函数, 回调函数的参数
+		// 预绑定功能实现
 		if(querySelector !== ''){
 			var fn = callback;
 			callback = function(e){
-				// 验证子选择器所匹配的nodeList中是否包含当前事件源
+				// 验证子选择器所匹配的nodeList中是否包含当前事件源 或 事件源的父级
 				// 注意: 这个方法为包装函数,此处的this为触发事件的Element
-				if([].indexOf.call( this.querySelectorAll(querySelector), e.target) !== -1){
-					fn.apply(e.target, arguments);
+				var target = e.target;
+				while(target !== this ){
+					if([].indexOf.call( this.querySelectorAll(querySelector), target) !== -1){
+						fn.apply(target, arguments);
+						break;
+					}
+					target = target.parentNode;
 				}
 			};
 		}
@@ -657,7 +667,6 @@ var _Event = {
 			};
 			eventList.push(eventObj);
 		});
-
 		return eventList;
 	},
 

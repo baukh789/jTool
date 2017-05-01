@@ -89,7 +89,7 @@
 		});
 	}
 	// 测试on
-	// testOn();
+	testOn();
 	function testOn(){
 		/*
 		 $('.t1').off('mousedown');
@@ -99,12 +99,13 @@
 		 console.log('mousedown click=', 'mousedown')
 		 }).trigger('click');
 		 */
-		$('.t1').off('mousedown', '#abc');
-		$('.t1').on('mousedown', '#abc', function(e){
-			console.log('click=', this.innerHTML)
+		$('.t1').off('mousedown', '.testOn');
+		$('.t1').on('mousedown', '.testOn', function(e){
+			console.log('mousedown=', this.innerHTML)
 		});
-		$('.t1').append('<span id="abc">abc</span>');
-		$('#abc').eq(1).trigger('mousedown');
+		$('.t1').append('<span class="testOn">abc1</span>');
+		$('.t1').append('<span class="testOn"><span>abc2</span></span>');
+		$('.testOn').eq(0).trigger('mousedown');
 		/*
 		 $('div').append('<p>新增加的P元素</p>');
 
@@ -155,7 +156,7 @@
 		});
 	}
 	// 测试post请求
-	testPost();
+	// testPost();
 	function testPost(){
 		$.post('http://www.lovejavascript.com/learnLinkManager/getLearnLinkList', {a:1,b:2,ccc:22234}, function(data, status){
 			console.log(data);
@@ -164,7 +165,7 @@
 	}
 
 	// 测试get请求
-	testGet();
+	// testGet();
 	function testGet(){
 		$.get('test.json', {a:1,b:2,ccc:22234}, function(data, status){
 			console.log(data);

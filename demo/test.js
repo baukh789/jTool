@@ -89,7 +89,7 @@
 		});
 	}
 	// 测试on
-	testOn();
+	// testOn();
 	function testOn(){
 		/*
 		 $('.t1').off('mousedown');

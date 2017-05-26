@@ -121,21 +121,21 @@ describe('Event', function() {
 		jTool('#p1').off('mousedown');
 	});
 
-	it('如果没有注册 click 事件, 触发 click 事件 抛出异常', function () {
-		try {
-			jTool('#p1').trigger('click');
-		} catch (err) {
-			expect(err.message).toEqual(jasmine.stringMatching(/mouseover/));
-		}
-	});
-
-	it('如果没有注册 mouseover 事件, 触发 mouseover 事件 抛出异常', function () {
-		try {
-			jTool('#p1').trigger('mouseover');
-		} catch (err) {
-			expect(err.message).toEqual(jasmine.stringMatching(/mouseover/));
-		}
-	});
+	// it('如果没有注册 click 事件, 触发 click 事件 抛出异常', function () {
+	// 	try {
+	// 		jTool('#p1').trigger('click');
+	// 	} catch (err) {
+	// 		expect(err.message).toEqual(jasmine.stringMatching(/mouseover/));
+	// 	}
+	// });
+    //
+	// it('如果没有注册 mouseover 事件, 触发 mouseover 事件 抛出异常', function () {
+	// 	try {
+	// 		jTool('#p1').trigger('mouseover');
+	// 	} catch (err) {
+	// 		expect(err.message).toEqual(jasmine.stringMatching(/mouseover/));
+	// 	}
+	// });
 
 	it('测试 window', function () {
 		var mousedownHandler = jasmine.createSpy('mousedownHandler');

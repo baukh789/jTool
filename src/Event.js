@@ -50,7 +50,7 @@ var _Event = {
 				}
 				// 当前为预绑定: 非click
 				else if (event !== 'click'){
-					console.warn('预绑定的事件只有click事件可以通过trigger进行调用');
+					utilities.error('预绑定的事件只有click事件可以通过trigger进行调用');
 				}
 				// 当前为预绑定: click事件, 该事件为浏览器特性
 				else if (event === 'click'){

@@ -121,14 +121,13 @@ describe('Event', function() {
 		jTool('#p1').off('mousedown');
 	});
 
-	// TODO 该测试无法通过
-	// it('如果没有注册 click 事件, 触发 click 事件 抛出异常', function () {
-	// 	try {
-	// 		jTool('#p1').trigger('click');
-	// 	} catch (err) {
-	// 		expect(err.message).toEqual(jasmine.stringMatching(/mouseover/));
-	// 	}
-	// });
+	it('如果没有注册 click 事件, 触发 click 事件 抛出异常', function () {
+		try {
+			jTool('#p1').trigger('click');
+		} catch (err) {
+			expect(err.message).toEqual(jasmine.stringMatching(/mouseover/));
+		}
+	});
 
 	it('如果没有注册 mouseover 事件, 触发 mouseover 事件 抛出异常', function () {
 		try {

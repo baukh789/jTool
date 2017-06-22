@@ -17,7 +17,7 @@
     "codecov": "^1.0.1",
     "express": "^4.15.3",
     "jasmine-ajax": "^3.2.0",
-    "jasmine-core": "^2.3.4",
+    "jasmine-core": "^2.6.4",
     "jshint": "^2.8.0",
     "karma": "^0.13.22",
     "karma-browserify": "^5.0.4",

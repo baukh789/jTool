@@ -967,7 +967,7 @@ function ajax(options) {
 	}else {
 		formData = options.data;
 	}
-	if(options.type === 'GET' && formData) {
+	if(options.type.toUpperCase() === 'GET' && formData) {
 		options.url = options.url + (options.url.indexOf('?') === -1 ?  '?' : '&') + formData;
 		formData = null;
 	}

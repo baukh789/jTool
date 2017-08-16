@@ -1299,7 +1299,7 @@ module.exports = {
 	error: error,
 	each: each,
 	createDOM: createDOM,
-	version: '1.2.16'
+	version: '1.2.21'
 };
 
 },{}]},{},[12]);

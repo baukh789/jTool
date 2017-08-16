@@ -175,5 +175,5 @@ module.exports = {
 	error: error,
 	each: each,
 	createDOM: createDOM,
-	version: '1.2.20'
+	version: '1.2.21'
 };

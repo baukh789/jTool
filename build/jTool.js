@@ -173,6 +173,7 @@ var _CSS = {
 	// TODO 颜色处理 返回16进制颜色值, 考虑 rgba 的情况
 	css: function(key, value) {
 		var _this = this;
+		// TODO padding-top 这种格式应该为 paddingTop, 类似的都应该如此. 因为getComputedStyle方法只可以使用paddingTop的方式进行使用
 		var pxList = ['width', 'height', 'min-width', 'max-width', 'min-height', 'min-height', 'top', 'left', 'right', 'bottom',
 			'padding-top', 'padding-right', 'padding-bottom', 'padding-left',
 			'margin-top', 'margin-right', 'margin-bottom', 'margin-left',
@@ -943,6 +944,7 @@ function ajax(options) {
 		data: null,		// 传递数据
 		headers: {},	// 请求头信息
 		async: true,	// 是否异步执行
+		xhrFields: {},  // 设置XHR对象, ajax_xhrFields 中的属性将追加至实例化后的XHR对象上
 		beforeSend: utilities.noop,	// 请求发送前执行事件
 		complete: utilities.noop,	// 请求发送后执行事件
 		success: utilities.noop,	// 请求成功后执行事件
@@ -974,8 +976,15 @@ function ajax(options) {
 
 	xhr.open(options.type, options.url, options.async);
 
-	for (var key in options.headers) {
-		xhr.setRequestHeader(key, options.headers[key]);
+	// 设置XHR对象, ajax_xhrFields 中的属性将追加至实例化后的XHR对象上
+	// 比如xhrFields = {withCredentials: true}, 那么将会配置跨域访问时协带cookies, authorization headers(头部授权)
+	for (var field in options.xhrFields) {
+		xhr[field] = options.xhrFields[field];
+	}
+
+	// 增加头信息
+	for (var header in options.headers) {
+		xhr.setRequestHeader(header, options.headers[header]);
 	}
 
 	// xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");

@@ -31,19 +31,47 @@ function ajax(options) {
 
 	var xhr = new XMLHttpRequest();
 	var formData = '';
-	if (utilities.type(options.data) === 'object') {
-		utilities.each(options.data, function (key, value) {
-			if(formData !== '') {
-				formData += '&';
-			}
-			formData += key + '=' + value;
-		});
-	}else {
-		formData = options.data;
+
+	// 获取表单数据: GET 与 POST(Content-Type !== appliaction/json)时使用
+	function getFormData() {
+		var data = '';
+		if (utilities.type(options.data) === 'object') {
+			utilities.each(options.data, function (key, value) {
+				if(data !== '') {
+					data += '&';
+				}
+				data += key + '=' + value;
+			});
+			return data;
+		}
+		return options.data;
 	}
-	if(options.type.toUpperCase() === 'GET' && formData) {
-		options.url = options.url + (options.url.indexOf('?') === -1 ?  '?' : '&') + formData;
+
+	// GET
+	if (options.type.toUpperCase() === 'GET') {
+		formData = getFormData();
+		if (formData) {
+			options.url = options.url + (options.url.indexOf('?') === -1 ?  '?' : '&') + formData;
+		}
 		formData = null;
+	}
+
+	// POST
+	if (options.type.toUpperCase() === 'POST') {
+		// 配置默认消息主体编码方式
+		if(!options.headers['Content-Type']){
+			options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+		}
+
+		// Content-Type: application/x-www-form-urlencoded || application/x-www-form-urlencoded;charset=utf-8
+		if (options.headers['Content-Type'].indexOf('application/x-www-form-urlencoded') === 0) {
+			formData = getFormData();
+		}
+
+		// Content-Type: application/json || application/json;charset=utf-8
+		if (options.headers['Content-Type'].indexOf('application/json') === 0) {
+			formData = JSON.stringify(options.data);
+		}
 	}
 
 	xhr.open(options.type, options.url, options.async);

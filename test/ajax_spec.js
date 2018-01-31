@@ -135,11 +135,11 @@ describe('ajax', function() {
 
 		ajax.ajax({
 			url: '/some/url',
-			headers: {'content-type': 'application/json; charset=UTF-8'}
+			headers: {'Content-Type': 'application/json; charset=UTF-8'}
 		});
 
 		expect(jasmine.Ajax.requests.mostRecent().url).toBe('/some/url');
-		expect(jasmine.Ajax.requests.mostRecent().requestHeaders).toEqual({'content-type': 'application/json; charset=UTF-8'});
+		expect(jasmine.Ajax.requests.mostRecent().requestHeaders).toEqual({'Content-Type': 'application/json; charset=UTF-8'});
 	});
 
 
@@ -151,7 +151,7 @@ describe('ajax', function() {
 
 		jasmine.Ajax.requests.mostRecent().respondWith({
 			'status': 200,
-			'contentType': 'text/plain',
+			'Content-Type': 'text/plain',
 			'responseText': 'some response'
 		});
 
@@ -166,7 +166,7 @@ describe('ajax', function() {
 
 		jasmine.Ajax.requests.mostRecent().respondWith({
 			'status': 200,
-			'contentType': 'application/json; charset=UTF-8',
+			'Content-Type': 'application/json; charset=UTF-8',
 			'responseText': {'test': 1}
 		});
 
@@ -207,7 +207,7 @@ describe('post', function() {
 
 		jasmine.Ajax.requests.mostRecent().respondWith({
 			'status': 200,
-			'contentType': 'application/json; charset=UTF-8',
+			'Content-Type': 'application/json; charset=UTF-8',
 			'responseText': {'test': 1}
 		});
 		expect(success).toHaveBeenCalledWith({'test': 1}, 200);
@@ -239,7 +239,7 @@ describe('get', function() {
 
 		jasmine.Ajax.requests.mostRecent().respondWith({
 			'status': 200,
-			'contentType': 'application/json; charset=UTF-8',
+			'Content-Type': 'application/json; charset=UTF-8',
 			'responseText': {'test': 1}
 		});
 		expect(success).toHaveBeenCalledWith({'test': 1}, 200);

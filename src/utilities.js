@@ -156,7 +156,7 @@ function createDOM(htmlString) {
 	if (childNodes.length == 1 && !/<th|<TH/.test(htmlString) && childNodes[0].nodeName === 'TH') {
 		childNodes = childNodes[0].childNodes;
 	}
-	jToolDOM.remove();
+    document.body.removeChild(jToolDOM);
 	return childNodes;
 }
 
@@ -175,5 +175,5 @@ module.exports = {
 	error: error,
 	each: each,
 	createDOM: createDOM,
-	version: '1.2.21'
+	version: '1.2.25'
 };

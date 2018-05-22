@@ -146,7 +146,9 @@ var _Document = {
 	//批量删除节点
 	remove: function() {
 		utilities.each(this.DOMList, function(i, v) {
-			v.remove();
+		    // v.remove IE 所有版本都不支持, 使用removeChild替换
+		    // v.remove();
+            v.parentNode.removeChild(v);
 		});
 	}
 };

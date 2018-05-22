@@ -109,7 +109,7 @@ var _Animate = {
 		window.setTimeout(function(){
 			_Css.css.call(_this, styleObj);
 			node.style.animation = '';
-			jToolAnimate.remove();
+            document.head.removeChild(jToolAnimate);
 			callback();
 		}, time);
 	}

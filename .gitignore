@@ -3,3 +3,5 @@
 .DS_Store
 npm-debug.log
 /coverage
+/dist
+/out

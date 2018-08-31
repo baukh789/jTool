@@ -151,7 +151,7 @@ var _Event = {
 					utilities.each(eventFnList, function(i2, v2) {
 						v.removeEventListener(v2.type, v2.callback);
 					});
-					v.jToolEvent[eventObj.eventName] = undefined;
+					delete(v.jToolEvent[eventObj.eventName]);
 				}
 			});
 		});

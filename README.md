@@ -15,15 +15,22 @@ jTool 用一样的 API, 不一样的逻辑, 实现相同的功能. 这就是 jTo
 ```
 npm install jTool
 ```
+
 ### 引入方式
 ```
-<script type="text/javascript" src="build/jTool.js"></script>
+<script type="text/javascript" src="dist/index.js"></script>
 ```
+
 ### 使用方式
 ```
 jTool('#test').show();
 //如果需要使用$符号, 则在代码初始区域执行 var $ = jTool; 即可.
 ```
 
+### ES2015
+```
+import 'jtool';
+jTool('#test').show();
+```
 ### 成功案例
 - [GridManager.js](http://gridmanager.lovejavascript.com)

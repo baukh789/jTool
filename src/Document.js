@@ -92,16 +92,14 @@ var _Document = {
 		});
 		return this;
 	},
-	wrap: function (elementText) {
-		var _this = this;
-		var selfDOM = '', //存储当前node 的html
-			parentNode;  // 存储父节点
+	wrap: function (elementText, content) {
+		var parentNode;  // 存储父节点
 		utilities.each(this.DOMList, function(i, v){
 			parentNode = v.parentNode;
 			var wrap = new Sizzle(elementText, v.ownerDocument).get(0);
 			parentNode.insertBefore(wrap, v);
-			// 将原节点添加入wrap中第一个为空的节点内
-			wrap.querySelector(':empty').appendChild(v);
+			// 当未指定原节点所在容器时，将原节点添加入wrap中第一个为空的节点内
+			content ? wrap.querySelector(content).appendChild(v) : wrap.querySelector(':empty').appendChild(v);
 		});
 		return this;
 	},

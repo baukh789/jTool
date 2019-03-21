@@ -13,7 +13,7 @@
 jTool 用一样的 API, 不一样的逻辑, 实现相同的功能. 这就是 jTool.js 的编码理念.
 ### 安装方式
 ```
-npm install jTool
+npm install jtool
 ```
 
 ### 引入方式

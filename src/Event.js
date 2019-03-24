@@ -115,7 +115,7 @@ var _Event = {
 				querySelector: querySelector,
 				callback: callback || utilities.noop,
 				useCapture: useCapture || false,
-				// TODO: nameScope暂时不用
+				// TODO: nameScope暂时不用, 因为nameScope中的值存在于eventName中，eventName已对同类型的事件进行了区分
 				nameScope: eventScopeSplit[1] || undefined
 			};
 			eventList.push(eventObj);

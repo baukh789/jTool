@@ -89,8 +89,8 @@ var _Event = {
 				// 验证子选择器所匹配的nodeList中是否包含当前事件源 或 事件源的父级
 				// 注意: 这个方法为包装函数,此处的this为触发事件的Element
 				var target = e.target;
-				while(target !== this ){
-					if([].indexOf.call( this.querySelectorAll(querySelector), target) !== -1){
+				while(target && target !== this ){
+					if([].indexOf.call(this.querySelectorAll(querySelector), target) !== -1){
 						fn.apply(target, arguments);
 						break;
 					}

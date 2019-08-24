@@ -89,7 +89,7 @@
 		});
 	}
 	// 测试on
-	// testOn();
+	testOn();
 	function testOn(){
 		/*
 		 $('.t1').off('mousedown');
@@ -99,13 +99,26 @@
 		 console.log('mousedown click=', 'mousedown')
 		 }).trigger('click');
 		 */
-		$('.t1').off('mousedown', '.testOn');
-		$('.t1').on('mousedown', '.testOn', function(e){
-			console.log('mousedown=', this.innerHTML)
+		$('.t1').off('mousedown', '.testOn1');
+		$('.t1').on('mousedown', '.testOn1', function(e){
+			console.log('testOn1=', this.innerHTML)
 		});
-		$('.t1').append('<span class="testOn">abc1</span>');
-		$('.t1').append('<span class="testOn"><span>abc2</span></span>');
-		$('.testOn').eq(0).trigger('mousedown');
+		$('.t1').off('mousedown', '.testOn2');
+		$('.t1').on('mousedown', '.testOn2', function(e){
+			console.log('testOn2=', this.innerHTML)
+		});
+		$('.t1').off('mousedown', '.testOn3');
+		$('.t1').on('mousedown', '.testOn3', function(e){
+			console.log('testOn3=', this.innerHTML)
+		});
+		$('.t1').append('<br/><span class="testOn1">testOn1</span>');
+		$('.t1').append('<br/><span class="testOn1"><span>testOn1</span></span>');
+		$('.t1').append('<br/><span class="testOn2">testOn2</span>');
+		$('.t1').append('<br/><span class="testOn2"><span>testOn2</span></span>');
+		$('.t1').append('<br/><span class="testOn3">testOn3</span>');
+		$('.t1').append('<br/><span class="testOn3"><span>testOn3</span></span>');
+		$('.t1').off('mousedown', '.testOn3');
+		// $('.t1').eq(0).trigger('mousedown');
 		/*
 		 $('div').append('<p>新增加的P元素</p>');
 

@@ -9,7 +9,7 @@ var _CSS = {
 	// TODO 颜色处理 返回16进制颜色值, 考虑 rgba 的情况
 	css: function(key, value) {
 		var _this = this;
-		// TODO padding-top 这种格式应该为 paddingTop, 类似的都应该如此. 因为getComputedStyle方法只可以使用paddingTop的方式进行使用
+		// 获取getComputedStyle 和 设置dom.style 会自已将类似于font-size 和fontSize的样式自动同步
 		var pxList = ['width', 'height', 'min-width', 'max-width', 'min-height', 'min-height', 'top', 'left', 'right', 'bottom',
 			'padding-top', 'padding-right', 'padding-bottom', 'padding-left',
 			'margin-top', 'margin-right', 'margin-bottom', 'margin-left',

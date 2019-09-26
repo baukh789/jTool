@@ -62,6 +62,9 @@ var _Document = {
 		else if(type === 'string'){
 			childList = utilities.createDOM(childList || '');
 		}
+		else if (type === 'number'){
+			childList = utilities.createDOM(childList.toString() || '');
+		}
 		else if(type === 'element'){
 			childList = [childList];
 		}

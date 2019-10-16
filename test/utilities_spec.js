@@ -19,13 +19,6 @@ describe('utilities', function() {
 		divEle = null;
 	});
 
-	it('isArray', function() {
-		expect(utilities.isArray([])).toBe(true);
-		expect(utilities.isArray({})).toBe(false);
-		expect(utilities.isArray(function(){})).toBe(false);
-		expect(utilities.isArray(123)).toBe(false);
-	});
-
 	it('type', function() {
 		expect(utilities.type(undefined)).toBe('undefined');
 		expect(utilities.type(null)).toBe('null');
@@ -110,17 +103,6 @@ describe('utilities', function() {
 		});
 	});
 
-	it('trim', function() {
-		expect(utilities.trim(' 123')).toBe('123');
-		expect(utilities.trim('123 ')).toBe('123');
-		expect(utilities.trim(' 12 3')).toBe('12 3');
-		expect(utilities.trim(' 123  ')).toBe('123');
-	});
-
-	it('error', function() {
-		expect(utilities.error).toThrowError(/jTool Error/);
-	});
-
 	it('isEmptyObject', function() {
 		expect(utilities.isEmptyObject({})).toBe(true);
 		expect(utilities.isEmptyObject(Object.create(null))).toBe(true);
@@ -133,29 +115,6 @@ describe('utilities', function() {
 		expect(utilities.getStyle(divEle)).toEqual(jasmine.any(Object));
 		divEle.style.fontSize = '12px';
 		expect(utilities.getStyle(divEle, 'font-size')).toBe('12px');
-	});
-
-	it('getStyleUnit', function() {
-		expect(utilities.getStyleUnit('12px')).toBe('px');
-		expect(utilities.getStyleUnit('12em')).toBe('em');
-		expect(utilities.getStyleUnit('12%')).toBe('%');
-		expect(utilities.getStyleUnit('12vem')).toBe('vem');
-	});
-
-	it('toHump', function() {
-		expect(utilities.toHump('font-size')).toBe('fontSize');
-		expect(utilities.toHump('-font-size')).toBe('FontSize');
-		expect(utilities.toHump('-font-size-')).toBe('FontSize-');
-		expect(utilities.toHump('color')).toBe('color');
-		expect(utilities.toHump('xxx-111-xx')).toBe('xxx111Xx');
-		expect(utilities.toHump('background-color')).toBe('backgroundColor');
-	});
-
-	it('toHyphen', function() {
-		expect(utilities.toHyphen('FontSize')).toBe('-font-size');
-		expect(utilities.toHyphen('fontSize')).toBe('font-size');
-		expect(utilities.toHyphen('FontSize-')).toBe('-font-size-');
-		expect(utilities.toHyphen('XXX')).toBe('-x-x-x');
 	});
 
 	it('isWindow', function() {

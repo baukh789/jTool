@@ -30,17 +30,6 @@ describe('Animate', function() {
 		jTool = null;
 	});
 
-	it('data', function() {
-		jTool('#div1').data('name', 'baukh');
-		expect(jTool('#div1').data('name')).toBe('baukh');
-		jTool('#div1').removeData('name');
-		expect(jTool('#div1').data('name')).toBe(undefined);
-		jTool('#div1').data('people', {name: 'baukh', sex: 'man'});
-		expect(jTool('#div1').data('people')).toEqual({name: 'baukh', sex: 'man'});
-		jTool('#div1').removeData('people');
-		expect(jTool('#div1').data('people')).toBe(undefined);
-	});
-
 	it('attr', function() {
 		jTool('#div1').attr('jtool', 'baukh');
 		expect(jTool('#div1').attr('jtool')).toBe('baukh');

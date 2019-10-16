@@ -1,10 +1,10 @@
 # jTool
 
-[![Build Status](https://img.shields.io/travis/baukh789/jTool.svg?style=flat-square)](https://travis-ci.org/baukh789/jTool)
-[![npm version](https://img.shields.io/npm/v/jTool.svg?style=flat-square)](https://www.npmjs.com/package/jTool)
-[![npm downloads](https://img.shields.io/npm/dt/jTool.svg?style=flat-square)](https://www.npmjs.com/package/jTool)
-[![coverage](https://img.shields.io/codecov/c/github/baukh789/jTool.svg?style=flat-square)](https://codecov.io/gh/baukh789/jTool)
-[![codecov](https://codecov.io/gh/baukh789/jTool/branch/master/graph/badge.svg)](https://codecov.io/gh/baukh789/jTool)
+[![Build Status](https://img.shields.io/travis/baukh789/jtool.svg?style=flat-square)](https://travis-ci.org/baukh789/jtool)
+[![npm version](https://img.shields.io/npm/v/jtool.svg?style=flat-square)](https://www.npmjs.com/package/jtool)
+[![npm downloads](https://img.shields.io/npm/dt/jtool.svg?style=flat-square)](https://www.npmjs.com/package/jtool)
+[![coverage](https://img.shields.io/codecov/c/github/baukh789/jtool.svg?style=flat-square)](https://codecov.io/gh/baukh789/jtool)
+[![codecov](https://codecov.io/gh/baukh789/jtool/branch/master/graph/badge.svg)](https://codecov.io/gh/baukh789/jtool)
 # jTool从哪里来
 表格组件[GridManager.js](http://gridmanager.lovejavascript.com), 这个组件起先是基于jQuery开发的,后来在做去jquery操作时, 将所支撑的基础类做了抽离, 而这个类库就是 jTool.
 

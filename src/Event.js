@@ -50,14 +50,14 @@ var _Event = {
 				}
 				// 当前为预绑定: 非click
 				else if (event !== 'click'){
-					utilities.error('预绑定的事件只有click事件可以通过trigger进行调用');
+					// 预绑定的事件只有click事件可以通过trigger进行调用
 				}
 				// 当前为预绑定: click事件, 该事件为浏览器特性
 				else if (event === 'click'){
 					element[event]();
 				}
 			} catch(e) {
-				utilities.error('事件:['+ event +']未能正确执行, 请确定方法已经绑定成功');
+				console.error('事件:['+ event +']未能正确执行, 请确定方法已经绑定成功');
 			}
 		});
 		return this;
@@ -73,7 +73,6 @@ var _Event = {
 		}
 		// event callback 为必要参数
 		if (!event) {
-			utilities.error('事件绑定失败,原因: 参数中缺失事件类型');
 			return this;
 		}
 

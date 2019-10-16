@@ -81,7 +81,6 @@ var _Animate = {
 		}
 		// 组装动画 keyframes
 		utilities.each(styleObj, function(key, v){
-			key = utilities.toHyphen(key);
 			animateFromText += key + ':' + utilities.getStyle(node, key) + ';';
 			animateToText += key + ':' + v + ';';
 		});

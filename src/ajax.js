@@ -7,11 +7,6 @@
 
 var extend = require('./extend');
 var utilities = require('./utilities');
-// TODO 这个文件中对jsdoc(文档生成工具) 进行了试验， 如果后面需要使用的话。应该将整个项目调整为es6，并且对生成后未压缩的文件执行jsdoc jTool.js
-/**
- * ajax
- * @param options 配置项
- */
 function ajax(options) {
 
 	var defaults = {
@@ -29,7 +24,6 @@ function ajax(options) {
 	options = extend(defaults, options);
 
 	if (!options.url) {
-		utilities.error('jTool ajax: url不能为空');
 		return;
 	}
 

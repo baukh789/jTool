@@ -15,7 +15,7 @@
   "homepage": "https://github.com/baukh789/jTool#readme",
   "devDependencies": {
     "browserify": "^13.0.0",
-    "codecov": "^1.0.1",
+    "codecov": "^3.7.1",
     "express": "^4.15.3",
     "jasmine-ajax": "^3.2.0",
     "jasmine-core": "^2.6.4",
